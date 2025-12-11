@@ -38,6 +38,7 @@ const formSchema = z.object({
   transmissionType: z.string().min(1, 'Transmission Type is required'),
   insuranceExpiryDate: z.string().min(1, 'Insurance Expiry Date is required'),
   status: z.enum(['Available', 'Not-available']),
+  image: z.any().optional(),
   documentOne: z.any().optional(),
   documentTwo: z.any().optional(),
 });
@@ -68,6 +69,7 @@ const VehicleAddForm = ({ isView, isEdit, vehicleData, role }: VehicleFormProps)
         ? vehicleData.insuranceExpiryDate.split('T')[0]
         : '',
       status: vehicleData?.status === 'active' ? 'Available' : 'Not-available',
+      image: vehicleData?.image || null,
       documentOne: vehicleData?.documentOne || null,
       documentTwo: vehicleData?.documentTwo || null,
     },
@@ -78,10 +80,23 @@ const VehicleAddForm = ({ isView, isEdit, vehicleData, role }: VehicleFormProps)
     try {
       setIsLoading(true);
 
+      let imageData = vehicleData?.image || null;
       let documentOneData = vehicleData?.documentOne || null;
       let documentTwoData = vehicleData?.documentTwo || null;
 
       // Step 1: Upload files if they are new File objects and create document objects
+      if (values.image instanceof File) {
+        const uploadedUrl = await uploadFile(values.image, 'vehicle-image');
+        if (!uploadedUrl) {
+          throw new Error('Failed to upload document one');
+        }
+        imageData = {
+          file: uploadedUrl,
+          fileName: values.image.name,
+          mimeType: values.image.type,
+        };
+      }
+
       if (values.documentOne instanceof File) {
         const uploadedUrl = await uploadFile(values.documentOne, 'vehicle-document-1');
         if (!uploadedUrl) {
@@ -118,6 +133,7 @@ const VehicleAddForm = ({ isView, isEdit, vehicleData, role }: VehicleFormProps)
         transmissionType: values.transmissionType,
         insuranceExpiryDate: values.insuranceExpiryDate,
         status: 'active', // Always send 'active' to API as requested
+        image: imageData,
         documentOne: documentOneData,
         documentTwo: documentTwoData,
       };
@@ -348,6 +364,24 @@ const VehicleAddForm = ({ isView, isEdit, vehicleData, role }: VehicleFormProps)
           ) : (
             <p className="col-span-2">Upload Required Document</p>
           )}
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Vehicle Image</FormLabel>
+                <FormControl>
+                  <FileInput
+                    onFileChange={field.onChange}
+                    existingFileUrl={vehicleData?.image?.file}
+                    existingFileName={vehicleData?.image?.fileName}
+                    disabled={isView}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="documentOne"
