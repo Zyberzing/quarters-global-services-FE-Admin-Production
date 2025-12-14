@@ -33,6 +33,7 @@ import { uploadFile } from '@/lib/uploadUtils';
 import { fetcher } from '@/lib/fetcher';
 import { commonFieldSchema } from '@/lib/formSchemaFunctions';
 import { TicketDataType } from '@/services/ticketsService';
+import { FormCombobox } from '@/components/common/FormComboBox';
 
 const ticketFormSchema = z.object({
   status: z.enum(['Open', 'Closed', 'Resolved', 'Waiting on Customer', 'Urgent']),
@@ -256,27 +257,13 @@ const TicketForm = ({
               />
             </div>
           </div>
-          <FormField
+          <FormCombobox
             control={form.control}
             name="customer"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Select Customer</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {customers.map((customer) => (
-                      <SelectItem key={customer._id} value={customer._id}>
-                        {customer.firstName} {customer.lastName} ({customer.email})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Select Customer"
+            apiUrl="/user/get-all-user?roles=user"
+            initialOptions={customers}
+            formatLabel={(item) => `${item.firstName} ${item.lastName} (${item.email})`}
           />
           <FormField
             control={form.control}
