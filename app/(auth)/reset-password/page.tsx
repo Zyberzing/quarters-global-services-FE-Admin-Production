@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import ResetPasswordForm from '@/components/forms/ResetPasswordForm';
 
@@ -15,8 +15,9 @@ const ResetPasswordPage = () => {
             <h2 className="md:text-5xl text-3xl font-normal text-text-secondary-200">
               Reset Password
             </h2>
-
-            <ResetPasswordForm />
+            <Suspense>
+              <ResetPasswordForm />
+            </Suspense>
           </div>
 
           <div className="flex flex-wrap justify-between items-center text-text-secondary-200 font-normal text-xs">
