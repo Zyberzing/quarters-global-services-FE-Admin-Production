@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/select';
 import { PhoneInput } from '@/components/ui/phone-input';
 import { toast } from 'sonner';
+import { FormCombobox } from '@/components/common/FormComboBox';
 
 const formSchema = z.object({
   fullName: z.string().min(1, 'Full Name is required'),
@@ -350,6 +351,15 @@ const VehicleBookingForm = ({
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <FormCombobox
+            control={form.control}
+            name="assignedDriver"
+            label="Assigned Driver"
+            apiUrl={`/user/get-all-user?roles=${UserTypeENUM.AGENT}`}
+            initialOptions={drivers}
+            formatLabel={(item) => `${item.fullName ?? ''} (${item.licenseNumber ?? ''})`}
           />
 
           <FormField

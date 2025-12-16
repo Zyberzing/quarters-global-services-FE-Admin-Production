@@ -54,10 +54,10 @@ const AgencyRegisterForm = () => {
     setOnSubmitLoading(true);
     try {
       // #### Email verification ####
-      const res = await fetch(process.env.NEXT_PUBLIC_QUARTUS_API_URL + '/user/verify-email', {
+      const res = await fetch(process.env.NEXT_PUBLIC_QUARTUS_API_URL + '/auth/agency-register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName: values.username, email: values.username, role: 'agent' }),
+        body: JSON.stringify({ email: values.username, password: values.password, role: 'agent' }),
       });
 
       const resData = await res.json();
