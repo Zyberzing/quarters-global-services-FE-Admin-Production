@@ -118,9 +118,9 @@ const ApplicationsPage = ({
             confirmLabel="Delete"
             onConfirm={() => handleDeleteApplication(row.id)}
           >
-            <button type="button" className="cursor-pointer hover:opacity-70 transition-opacity">
+            <span className="cursor-pointer hover:opacity-70 transition-opacity">
               <Icon name="delete" />
-            </button>
+            </span>
           </DeleteConfirm>
         </div>
       ),

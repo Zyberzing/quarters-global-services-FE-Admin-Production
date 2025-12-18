@@ -438,7 +438,6 @@ const ApplicationForm = ({
         },
       ],
     };
-    console.log(backendPayload, 'backendPayload');
     await createApplication(backendPayload);
     toast.success('Application submitted successfully!');
   });
