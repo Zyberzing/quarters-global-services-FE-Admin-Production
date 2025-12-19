@@ -221,7 +221,11 @@ const TaxBureauForm = ({
                       return (
                         <Card
                           key={pkg}
-                          onClick={() => field.onChange(pkg)}
+                          onClick={() => {
+                            if (!isView) {
+                              field.onChange(pkg);
+                            }
+                          }}
                           className={`cursor-pointer transition-all border-2 ${
                             isSelected
                               ? 'border-primary bg-primary text-primary-foreground shadow-md'
