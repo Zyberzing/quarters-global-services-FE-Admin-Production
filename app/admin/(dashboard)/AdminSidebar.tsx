@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   FileCheck2,
   Building2,
-  FileText,
   Car,
   CreditCard,
   Users,
@@ -57,12 +56,12 @@ const AdminSidebar = () => {
     //   icon: Truck,
     //   isVisible: hasAccess({ permission: PERMISSIONS_LIST_ENUM.couriers }),
     // },
-    {
-      name: 'Documents',
-      href: '/admin/documents',
-      icon: FileText,
-      isVisible: hasAccess({ permission: PERMISSIONS_LIST_ENUM.documents }),
-    },
+    // {
+    //   name: 'Documents',
+    //   href: '/admin/documents',
+    //   icon: FileText,
+    //   isVisible: hasAccess({ permission: PERMISSIONS_LIST_ENUM.documents }),
+    // },
     {
       name: 'Vehicles',
       href: '/admin/vehicles',

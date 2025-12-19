@@ -86,6 +86,7 @@ const Payments = ({
 }: {
   transactionsData: ApiPagination & { data: TransactionDataType[] };
 }) => {
+  console.log(transactionsData, 'transactionsData');
   const payments = transactionsData.data.map((e) => ({
     name: (e.user?.firstName || '-') + ' ' + (e.user?.lastName || ''),
     email: e.user?.email || '-',
