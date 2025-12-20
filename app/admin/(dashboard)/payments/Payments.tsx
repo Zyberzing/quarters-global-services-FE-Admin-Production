@@ -2,7 +2,6 @@ import CommonTable from '@/components/common/CommonTable';
 import Paginator from '@/components/shared/paginator';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { formatCurrency } from '@/lib/formatCurrency';
 import { ApiPagination } from '@/lib/types';
 import { TransactionDataType } from '@/services/transactionService';
 import { Eye } from 'lucide-react';
@@ -90,7 +89,7 @@ const Payments = ({
   const payments = transactionsData.data.map((e) => ({
     name: (e.user?.firstName || '-') + ' ' + (e.user?.lastName || ''),
     email: e.user?.email || '-',
-    amount: formatCurrency({ amount: e.amount || '0' }),
+    amount: `${e.amount}$` || '0',
     service: e.paymentMode,
     serviceType: e.paymentMode,
     mode: e.paymentMode,

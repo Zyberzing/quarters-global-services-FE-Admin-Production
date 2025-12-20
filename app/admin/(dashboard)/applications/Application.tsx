@@ -75,10 +75,10 @@ const ApplicationsPage = ({
       header: 'Applicant Name',
       accessor: 'name',
     },
-    {
-      header: 'Service',
-      accessor: 'service',
-    },
+    // {
+    //   header: 'Service',
+    //   accessor: 'service',
+    // },
     {
       header: 'Service Type',
       accessor: 'serviceType',
@@ -86,6 +86,13 @@ const ApplicationsPage = ({
     {
       header: 'Phone',
       accessor: 'phone',
+    },
+    {
+      header: 'Payments',
+      accessor: 'totalAmount',
+      render: (row: any) => {
+        return <span>{row.totalAmount ? `${row.totalAmount}$` : '0$'}</span>;
+      },
     },
     {
       header: 'Email',
@@ -137,6 +144,7 @@ const ApplicationsPage = ({
     serviceType: data.serviceFields?.service,
     phone: data.phone,
     email: data.email,
+    totalAmount: data?.totalAmount,
     date: new Date(data.createdAt).toLocaleString('en-US', {
       year: 'numeric',
       month: '2-digit',
@@ -178,7 +186,7 @@ const ApplicationsPage = ({
               className="data-[state=active]:bg-primary-100 data-[state=active]:text-white"
             >
               <Link href={`/admin/applications?applicationSources=${applicationSources[2]}`}>
-                Online
+                Onlinesss
               </Link>
             </TabsTrigger>
           </TabsList>
