@@ -6,8 +6,15 @@ import { redirect } from 'next/navigation';
 import hasAccess from '@/hooks/useAccessControl/hasAccess';
 import { PERMISSIONS_LIST_ENUM } from '@/hooks/useAccessControl/permissions';
 
-const page = async ({ searchParams }: { searchParams: Promise<{ page?: string }> }) => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; q?: string; from?: string; to?: string }>;
+}) => {
   const page = (await searchParams).page || '1';
+  const search = (await searchParams).q || '';
+  const from = (await searchParams).from || '';
+  const to = (await searchParams).to || '';
 
   const session = await hasSession();
   if (!session?.id) {
@@ -21,6 +28,9 @@ const page = async ({ searchParams }: { searchParams: Promise<{ page?: string }>
 
   const supports = await getSupports({
     page,
+    search,
+    from,
+    to,
   });
 
   return <Support supportsData={supports} />;

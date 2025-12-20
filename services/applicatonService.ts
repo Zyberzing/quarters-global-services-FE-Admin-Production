@@ -12,6 +12,10 @@ export const getApplications = async ({
   isSubmittedFromApplication,
   isSubmittedFromService,
   platformServiceCategoryPackageId,
+  from = '',
+  to = '',
+  status = '',
+  createdBy = '',
 }: {
   page: string;
   applicationSources: ApplicationSource | '';
@@ -19,10 +23,14 @@ export const getApplications = async ({
   isSubmittedFromApplication?: '1';
   isSubmittedFromService?: '1';
   platformServiceCategoryPackageId?: string;
+  from?: string;
+  to?: string;
+  status?: string;
+  createdBy?: string;
 }): Promise<ApiPagination & { data: UserDataType[] }> => {
   try {
     const data = await fetcher(
-      `/application/get-application?page=${page}&applicationSources=${applicationSources}&search=${search || ''}&isSubmittedFromApplication=${isSubmittedFromApplication || '0'}&isSubmittedFromService=${isSubmittedFromService || '0'}&platformServiceCategoryPackageId=${platformServiceCategoryPackageId}`,
+      `/application/get-application?page=${page}&applicationSources=${applicationSources}&search=${search || ''}&isSubmittedFromApplication=${isSubmittedFromApplication || '0'}&isSubmittedFromService=${isSubmittedFromService || '0'}&platformServiceCategoryPackageId=${platformServiceCategoryPackageId}&from=${from}&to=${to}&status=${status}&createdBy=${createdBy}`,
       {
         cache: 'no-cache',
         revalidate: 60,

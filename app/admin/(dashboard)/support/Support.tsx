@@ -8,6 +8,7 @@ import { Eye } from 'lucide-react';
 import { SupportDataType } from '@/services/supportsService';
 import { ApiPagination } from '@/lib/types';
 import Link from 'next/link';
+import CommonFilters from '@/components/common/CommonFilters';
 
 interface SupportProps {
   supportsData: ApiPagination & { data: SupportDataType[] };
@@ -74,13 +75,13 @@ const SupportPage = ({ supportsData }: SupportProps) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Support</h2>
-        <Button variant="outline">Filter</Button>
+        <CommonFilters />
       </div>
 
       {/* Support Data */}
       <div className="space-y-4 min-h-[60svh] flex flex-col justify-between">
         <CommonTable columns={columns} data={supportsData.data} />
-        <Paginator totalItems={supportsData.count} />
+        <Paginator totalItems={supportsData.totalPages} />
       </div>
     </div>
   );

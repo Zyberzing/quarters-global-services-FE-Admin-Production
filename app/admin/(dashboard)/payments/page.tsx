@@ -5,9 +5,15 @@ import { PERMISSIONS_LIST_ENUM } from '@/hooks/useAccessControl/permissions';
 import { redirect } from 'next/navigation';
 import { getTransactions } from '@/services/transactionService';
 
-const page = async ({ searchParams }: { searchParams: Promise<{ page?: string; q?: string }> }) => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; q?: string; from?: string; to?: string }>;
+}) => {
   const page = (await searchParams).page || '1';
   const search = (await searchParams).q || '';
+  const from = (await searchParams).from || '';
+  const to = (await searchParams).to || '';
 
   const access = await hasAccess({ permission: PERMISSIONS_LIST_ENUM.payments });
   if (!access) {
@@ -15,8 +21,7 @@ const page = async ({ searchParams }: { searchParams: Promise<{ page?: string; q
   }
 
   // Fetch customers data
-  const data = await getTransactions({ page, search });
-  console.log(data, 'data');
+  const data = await getTransactions({ page, search, from, to });
   return <Payments transactionsData={data} />;
 };
 

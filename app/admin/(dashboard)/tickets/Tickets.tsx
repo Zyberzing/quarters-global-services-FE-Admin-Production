@@ -4,13 +4,13 @@ import Paginator from '@/components/shared/paginator';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { TicketDataType } from '@/services/ticketsService';
 import { ApiPagination } from '@/lib/types';
 
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import DeleteTicket from './DeleteTicket';
+import CommonFilters from '@/components/common/CommonFilters';
 
 interface TicketsProps {
   ticketsData: ApiPagination & { data: TicketDataType[] };
@@ -118,16 +118,7 @@ const Tickets = ({ ticketsData }: TicketsProps) => {
       <div className="flex justify-between  ">
         <div></div>
         <div className="flex items-center gap-2">
-          <Popover>
-            <PopoverTrigger>
-              <Button variant="outline" className="border-primary-100 text-primary-100">
-                Filter
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="max-w-fit" align="end">
-              <div className="flex items-center gap-2">Filters...</div>
-            </PopoverContent>
-          </Popover>
+          <CommonFilters />
 
           <Button asChild className="bg-primary-100 text-white">
             <Link href="/admin/tickets/create-ticket">
