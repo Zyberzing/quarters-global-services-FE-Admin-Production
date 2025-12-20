@@ -48,14 +48,23 @@ export interface TicketDataType {
 
 export const getTickets = async ({
   page,
+  search = '',
+  from = '',
+  to = '',
 }: {
   page: string;
+  search?: string;
+  from?: string;
+  to?: string;
 }): Promise<ApiPagination & { data: TicketDataType[] }> => {
   try {
-    const response = await fetcher(`/ticket/get-tickets?page=${page}`, {
-      cache: 'no-cache',
-      revalidate: 60,
-    });
+    const response = await fetcher(
+      `/ticket/get-tickets?page=${page}&search=${search}&from=${from}&to=${to}`,
+      {
+        cache: 'no-cache',
+        revalidate: 60,
+      },
+    );
     console.log(response, 'Tickets data');
 
     // Transform the API response to match our expected structure

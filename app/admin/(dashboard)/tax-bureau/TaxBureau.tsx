@@ -2,12 +2,12 @@ import CommonTable from '@/components/common/CommonTable';
 import Icon from '@/components/common/Icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import DeleteTaxBureau from './DeleteTaxBureau';
 import { TaxBureauListResponse } from '@/services/taxBureauService';
 import Paginator from '@/components/shared/paginator';
+import CommonFilters from '@/components/common/CommonFilters';
 
 const columns = [
   {
@@ -82,23 +82,13 @@ const columns = [
 ];
 
 const TaxBureau = ({ data }: { data: TaxBureauListResponse }) => {
-  const prepareData = data || [];
   return (
     <div className="space-y-2">
       {/* Filters */}
       <div className="flex justify-between  ">
         <div></div>
         <div className="flex items-center gap-2">
-          <Popover>
-            <PopoverTrigger>
-              <Button variant="outline" className="border-primary-100 text-primary-100">
-                Filter
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="max-w-fit" align="end">
-              <div className="flex items-center gap-2">Filters...</div>
-            </PopoverContent>
-          </Popover>
+          <CommonFilters />
 
           <Button asChild className="bg-primary-100 text-white">
             <Link href="/admin/tax-bureau/create">

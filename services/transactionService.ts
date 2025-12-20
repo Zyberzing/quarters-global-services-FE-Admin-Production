@@ -26,14 +26,21 @@ export type TransactionDataType = {
 export const getTransactions = async ({
   page,
   search = '',
+  from = '',
+  to = '',
 }: {
   page: string;
   search?: string;
+  from?: string;
+  to?: string;
 }): Promise<ApiPagination & { data: TransactionDataType[] }> => {
   try {
-    const response = await fetcher(`/transaction/list?page=${page || '1'}&search=${search}`, {
-      method: 'GET',
-    });
+    const response = await fetcher(
+      `/transaction/list?page=${page || '1'}&search=${search}&from=${from}&to=${to}`,
+      {
+        method: 'GET',
+      },
+    );
 
     if (response?.data) {
       return {

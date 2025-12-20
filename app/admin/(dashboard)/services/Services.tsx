@@ -3,7 +3,6 @@ import CommonTable from '@/components/common/CommonTable';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { ExternalLink, Plus } from 'lucide-react';
 import Link from 'next/link';
 import Icon from '@/components/common/Icon';
@@ -15,6 +14,7 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { vehicleBooking_platformServiceCategoryPackageId } from '@/lib/staticIds';
+import CommonFilters from '@/components/common/CommonFilters';
 
 // Component
 const ServicesPage = ({
@@ -186,13 +186,18 @@ const ServicesPage = ({
             <ExternalLink />
             Export
           </Button>
-
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline">Filter</Button>
-            </PopoverTrigger>
-            <PopoverContent className="max-w-sm">Filter options here</PopoverContent>
-          </Popover>
+          <CommonFilters
+            selects={[
+              {
+                name: 'status',
+                label: 'Status',
+                options: [
+                  { label: 'Active', value: 'ACTIVE' },
+                  { label: 'In Active', value: 'INACTIVE' },
+                ],
+              },
+            ]}
+          />
 
           <Button asChild>
             <Link href="/admin/services/add-service">

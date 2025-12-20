@@ -6,7 +6,7 @@ import { ApiPagination } from '@/lib/types';
 import { TransactionDataType } from '@/services/transactionService';
 import { Eye } from 'lucide-react';
 import PaymentDetailsModal from './PaymentDetailsModal';
-import QueryInputSearch from '@/components/shared/QueryInputSearch';
+import CommonFilters from '@/components/common/CommonFilters';
 
 // Dummy Data
 
@@ -85,7 +85,6 @@ const Payments = ({
 }: {
   transactionsData: ApiPagination & { data: TransactionDataType[] };
 }) => {
-  console.log(transactionsData, 'transactionsData');
   const payments = transactionsData.data.map((e) => ({
     name: (e.user?.firstName || '-') + ' ' + (e.user?.lastName || ''),
     email: e.user?.email || '-',
@@ -106,7 +105,7 @@ const Payments = ({
     <div className="space-y-2">
       {/* Filters */}
       <div className="flex items-center justify-end gap-2">
-        <QueryInputSearch />
+        <CommonFilters />
       </div>
 
       {/* Table */}
