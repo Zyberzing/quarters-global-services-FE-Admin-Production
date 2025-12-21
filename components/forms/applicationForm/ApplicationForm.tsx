@@ -56,8 +56,6 @@ const ApplicationForm = ({
   isEdit?: boolean;
   applicationData?: any;
 }) => {
-  console.log(applicationData, 'applicationData');
-
   // Helper function to extract addon IDs from application data
 
   const [isSubCategoriesAvailable, setIsSubCategoriesAvailable] = useState(
@@ -240,7 +238,6 @@ const ApplicationForm = ({
     },
     mode: 'all',
   });
-  console.log(form.watch(), ':Application form values');
   console.log(form.formState.errors, ':Application form errors');
 
   const onSubmit = handleAsync(async (values: CreateApplicationType) => {
@@ -629,7 +626,6 @@ const ApplicationForm = ({
         convictedDetails: values.convictedDetails,
       },
     };
-    console.log(backendPayload, 'backendPayload');
     await editApplication(backendPayload);
     toast.success('Application submitted successfully!');
   });
@@ -666,13 +662,6 @@ const ApplicationForm = ({
   // Set default values
   useEffect(() => {
     if (Object.keys(applicationData || {}).length) {
-      console.log('Application Data Structure:', applicationData);
-      console.log('Platform Services:', applicationData?.platformServices);
-      console.log('Direct Addon IDs:', applicationData?.platformServiceCategoryPackageAddonsId);
-      console.log(
-        'Platform Services Addon IDs:',
-        applicationData?.platformServices?.[0]?.platformServiceCategoryPackageAddonsId,
-      );
       form.reset({
         toCountryId: applicationData?.toCountryId || '',
         platformServiceId: applicationData?.platformServiceId || '',

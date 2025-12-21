@@ -72,7 +72,6 @@ function formatLabel(fieldName: string) {
 
 const DocumentForm = ({ selectedCategory, existingDocuments, isView }: DocumentFormProps) => {
   const form = useFormContext<CreateApplicationType>();
-  console.log(selectedCategory, 'selectedCategory');
   // Pick the right schema for this category
   const schema = (() => {
     switch (selectedCategory) {
@@ -170,12 +169,14 @@ const DocumentForm = ({ selectedCategory, existingDocuments, isView }: DocumentF
   })();
 
   const fields = schema ? getSchemaFields(schema) : [];
-  console.log(fields, 'fields');
+
   return (
     <>
       {fields.length > 0 ? (
         <div className="p-4 border rounded-lg grid sm:grid-cols-2 gap-4">
-          {selectedCategory}
+          <p className="text-base font-semibold text-primary">
+            {selectedCategory?.replace(/-/g, ' ').toUpperCase()}
+          </p>
           <p className="col-span-2 font-semibold">Documents</p>
           {fields.map((f) => {
             if (f.name === 'serviceType') return null;
