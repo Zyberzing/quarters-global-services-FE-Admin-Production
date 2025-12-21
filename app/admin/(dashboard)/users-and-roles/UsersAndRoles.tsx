@@ -1,7 +1,6 @@
 import CommonTable from '@/components/common/CommonTable';
 import Icon from '@/components/common/Icon';
 import Paginator from '@/components/shared/paginator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -27,18 +26,22 @@ const userColumns = [
     header: 'User ID',
     accessor: 'userId',
   },
+  // {
+  //   header: 'Name',
+  //   accessor: 'name',
+  //   render: (row: any) => (
+  //     <div className="flex items-center gap-2 font-medium">
+  //       <Avatar>
+  //         <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
+  //         <AvatarFallback>AB</AvatarFallback>
+  //       </Avatar>
+  //       <p>{row.name}</p>
+  //     </div>
+  //   ),
+  // },
   {
     header: 'Name',
     accessor: 'name',
-    render: (row: any) => (
-      <div className="flex items-center gap-2 font-medium">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
-          <AvatarFallback>AB</AvatarFallback>
-        </Avatar>
-        <p>{row.name}</p>
-      </div>
-    ),
   },
   {
     header: 'Email',
@@ -51,6 +54,11 @@ const userColumns = [
   {
     header: 'User Creation Date',
     accessor: 'createdAt',
+  },
+  {
+    header: 'Verified',
+    accessor: 'isVerified',
+    render: (row: any) => <Badge variant={'outline'}>{row.isVerified}</Badge>,
   },
   {
     header: 'Status',
@@ -145,13 +153,15 @@ const UsersAndRolesPage = ({
   accessUsers: boolean;
   accessRoles: boolean;
 }) => {
+  console.log(usersData, 'usersData');
   const preparedUsers = usersData.data.map((user) => ({
     userId: user._id,
     name: user.fullName || `${user.firstName} ${user.lastName}` || 'N/A',
     email: user.email,
-    role: user.role,
+    role: user.subAdminRoleId?.name || user.role,
     createdAt: new Date(user.createdAt).toLocaleDateString(),
-    status: user.isVerified ? 'Active' : 'Inactive',
+    isVerified: user.isVerified ? 'Yes' : 'No',
+    status: user.status,
   }));
 
   const preparedRoles = rolesList.map((role) => ({

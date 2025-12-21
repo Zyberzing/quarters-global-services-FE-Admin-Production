@@ -15,6 +15,7 @@ const page = async ({ searchParams }: { searchParams: Promise<{ id?: string }> }
     return redirect('/?access=false');
   }
   const userData = await getUserById(id);
+
   if (!userData) {
     return redirect('/admin/users-and-roles');
   }

@@ -293,7 +293,12 @@ const CustomerForm = ({
                 <FormItem>
                   <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
-                    <Input type="date" placeholder="" {...field} />
+                    <Input
+                      type="date"
+                      placeholder=""
+                      max={format(new Date(), 'yyyy-MM-dd')}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

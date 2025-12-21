@@ -20,17 +20,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PhoneInput } from '@/components/ui/phone-input';
 import { getRoles } from '@/services/rolesService';
 import { RoleDataType, UserDataType } from '@/lib/types';
 import handleAsync from '@/lib/handleAsync';
 import { createUser, editUser, resendOtpToUser, verifyUser } from '@/services/usersService';
-import { parsePhoneNumber } from 'react-phone-number-input';
 import { commonFieldSchema, emailSchema, passwordSchema } from '@/lib/formSchemaFunctions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { OtpVerificationDialog } from '@/components/shared/OtpVerificationDialog';
+import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 
 const formSchema = z.object({
   firstName: commonFieldSchema(),
@@ -40,13 +39,14 @@ const formSchema = z.object({
   phone: commonFieldSchema(),
   subAdminRoleId: commonFieldSchema(),
   password: passwordSchema().optional().or(z.literal('')),
+  status: commonFieldSchema().optional(),
 });
 
 export type UserFormSchemaType = z.infer<typeof formSchema>;
 
 const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: UserDataType }) => {
   const router = useRouter();
-  console.log(userData, 'userData');
+  console.log(userData, 'userData-sadf');
   // --
   const [roles, setRoles] = useState<RoleDataType[]>([]);
   const [otpUserId, setOtpUserId] = useState<string | null>(null);
@@ -63,6 +63,7 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
       countryCode: userData?.countryCode || '',
       subAdminRoleId: userData?.subAdminRoleId?._id || '',
       password: '',
+      status: userData?.status || undefined,
     },
   });
   console.log(form.formState.errors, ':Form Errors');
@@ -101,7 +102,7 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
   const handleOtpVerify = async (userId: string, otp: string) => {
     setOtpLoading(true);
     try {
-      const response = await verifyUser({ userId, code: otp });
+      await verifyUser({ userId, code: otp });
       toast.success('OTP verified successfully!');
       setOtpUserId(null);
       form.reset({});
@@ -180,7 +181,13 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input readOnly={isView} type="email" placeholder="" {...field} />
+                    <Input
+                      readOnly={isView || !!userData?._id}
+                      disabled={!!userData?._id}
+                      type="email"
+                      placeholder=""
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -193,20 +200,17 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <PhoneInput
-                      readOnly={isView}
-                      placeholder=""
-                      {...field}
-                      onChange={(value) => {
-                        if (!value) {
+                    <PhoneInput2
+                      disabled={isView}
+                      value={field.value}
+                      onChange={(val, df) => {
+                        if (!val) {
+                          form.setValue('countryCode', '');
+                          field.onChange('');
                           return;
                         }
-
-                        const phoneNumber = parsePhoneNumber(value);
-                        if (phoneNumber) {
-                          form.setValue('countryCode', phoneNumber.countryCallingCode);
-                          field.onChange(value);
-                        }
+                        field.onChange(val);
+                        form.setValue('countryCode', `+${df.dialCode || ''}`);
                       }}
                     />
                   </FormControl>
@@ -235,11 +239,35 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
                       ))}
                     </SelectContent>
                   </Select>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {!!userData?._id && (
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={'ACTIVE'}>Active</SelectItem>
+                        <SelectItem value={'INACTIVE'}>Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
             {/* <FormField
             control={form.control}
             name="description"
@@ -253,7 +281,7 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
               </FormItem>
             )}
           /> */}
-            {!isView && (
+            {!isView && !userData?._id && (
               <FormField
                 control={form.control}
                 name="password"
@@ -261,7 +289,12 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
                   <FormItem className="col-span-2">
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input readOnly={isView} placeholder="" {...field} />
+                      <Input
+                        readOnly={isView}
+                        disabled={!!userData?._id}
+                        placeholder=""
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

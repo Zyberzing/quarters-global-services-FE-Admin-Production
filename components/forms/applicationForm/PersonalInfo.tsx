@@ -10,6 +10,7 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { format } from 'date-fns';
 
 export default function PersonalInfo({ isView = false }: { isView?: boolean }) {
   const form = useFormContext();
@@ -107,7 +108,12 @@ export default function PersonalInfo({ isView = false }: { isView?: boolean }) {
           <FormItem>
             <FormLabel>Date of Birth</FormLabel>
             <FormControl>
-              <Input type="date" readOnly={isView} {...field} />
+              <Input
+                type="date"
+                readOnly={isView}
+                max={format(new Date(), 'yyyy-MM-dd')}
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
