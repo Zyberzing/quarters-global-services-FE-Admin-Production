@@ -46,7 +46,6 @@ export type UserFormSchemaType = z.infer<typeof formSchema>;
 
 const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: UserDataType }) => {
   const router = useRouter();
-  console.log(userData, 'userData-sadf');
   // --
   const [roles, setRoles] = useState<RoleDataType[]>([]);
   const [otpUserId, setOtpUserId] = useState<string | null>(null);

@@ -153,7 +153,6 @@ const UsersAndRolesPage = ({
   accessUsers: boolean;
   accessRoles: boolean;
 }) => {
-  console.log(usersData, 'usersData');
   const preparedUsers = usersData.data.map((user) => ({
     userId: user._id,
     name: user.fullName || `${user.firstName} ${user.lastName}` || 'N/A',
