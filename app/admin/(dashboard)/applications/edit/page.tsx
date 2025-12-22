@@ -8,7 +8,7 @@ import { PERMISSIONS_LIST_ENUM } from '@/hooks/useAccessControl/permissions';
 import { getApplicationById } from '@/services/applicatonService';
 import { ApplicationSource } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Edit } from 'lucide-react';
 import Link from 'next/link';
 
 const page = async ({
@@ -44,7 +44,13 @@ const page = async ({
           </Link>
         </Button>
         <p className="text-base font-semibold grow">Application ID: {application} </p>
-        {isView && <Actions />}
+        {isView ? (
+          <Actions />
+        ) : (
+          <Button>
+            <Edit /> Edit
+          </Button>
+        )}
       </div>
 
       <StatusTimeLine activeStatus={applicationData.status || 'Submitted'} />
