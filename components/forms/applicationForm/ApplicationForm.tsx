@@ -266,7 +266,7 @@ const ApplicationForm = ({
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
-          countryCode: values.phone?.split(' ')[0] || '+1', // Extract country code from phone
+          countryCode: values.phone?.split(' ')?.[0] || '+1', // Extract country code from phone
           phone: values.phone?.replace(/^\+\d+\s/, '') || '', // Remove country code from phone
           description: values.notes || '',
           address: {
@@ -287,7 +287,7 @@ const ApplicationForm = ({
           },
 
           status: 'Submitted',
-          applicationSource: applicationSources[0],
+          applicationSource: applicationSources?.[0],
 
           toCountryId: values.toCountryId,
           platformServices: [
@@ -461,7 +461,7 @@ const ApplicationForm = ({
       id: applicationData._id,
       firstName: values.firstName,
       lastName: values.lastName,
-      countryCode: values.phone?.split(' ')[0] || '+1',
+      countryCode: values.phone?.split(' ')?.[0] || '+1',
       phone: values.phone?.replace(/^\+\d+\s/, '') || '',
       description: values.notes || '',
       paymentMode: 'offline',
@@ -787,14 +787,7 @@ const ApplicationForm = ({
             </Select>
           )} */}
 
-        {isView && (
-          <div className="p-4 bg-primary-300 rounded-lg">
-            <p className="font-semibold">Application ID: 00816551</p>
-          </div>
-        )}
-
         {/*   Application Details */}
-
         <div className="space-y-6">
           {/* ---- Service Details ---- */}
           <div className="p-4 border rounded-lg grid sm:grid-cols-2 gap-4">
@@ -897,7 +890,7 @@ const ApplicationForm = ({
             <USPassportForm isView={isView} />
           ) : (
             <>
-              <PersonalInfo isView={isView} />
+              <PersonalInfo isView={isView} isEdit={isEdit} />
               <PassportDetails isView={isView} />
               <ContactInfo isView={isView} />
               <FamilyInfo isView={isView} />

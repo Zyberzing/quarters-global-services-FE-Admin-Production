@@ -12,7 +12,13 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { format } from 'date-fns';
 
-export default function PersonalInfo({ isView = false }: { isView?: boolean }) {
+export default function PersonalInfo({
+  isView = false,
+  isEdit = false,
+}: {
+  isView?: boolean;
+  isEdit?: boolean;
+}) {
   const form = useFormContext();
   return (
     <div className="p-4 border rounded-lg grid sm:grid-cols-2 gap-4">
@@ -454,7 +460,7 @@ export default function PersonalInfo({ isView = false }: { isView?: boolean }) {
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input type="email" readOnly={isView} {...field} />
+              <Input type="email" readOnly={isView} disabled={!!isEdit} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

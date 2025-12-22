@@ -136,12 +136,6 @@ const PackageAddons = ({ packageId, enable = true, isEdit = false }: PackageAddo
       control={form.control}
       name="platformServiceCategoryPackageAddonsId"
       render={({ field }) => {
-        console.log(
-          field.value,
-          form.getValues('platformServiceCategoryPackageAddonsId'),
-          addons,
-          'field.value',
-        );
         return (
           <FormItem className="space-y-3">
             <FormLabel className="text-base font-semibold">Additional Documents</FormLabel>
@@ -156,6 +150,7 @@ const PackageAddons = ({ packageId, enable = true, isEdit = false }: PackageAddo
                       <Checkbox
                         checked={(field.value || []).includes(addon._id)}
                         onCheckedChange={(checked) => handleAddonToggle(addon._id, !!checked)}
+                        disabled={!!isEdit}
                       />
                       <div className="flex-1 space-y-1">
                         <div className="flex items-center justify-between">

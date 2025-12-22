@@ -44,8 +44,9 @@ const page = async ({
           </Link>
         </Button>
         <p className="text-base font-semibold grow">Application ID: {application} </p>
-        <Actions />
+        {isView && <Actions />}
       </div>
+
       <StatusTimeLine activeStatus={applicationData.status || 'Submitted'} />
       <ApplicationForm isEdit={true} isView={!!isView} applicationData={applicationData} />
     </div>
