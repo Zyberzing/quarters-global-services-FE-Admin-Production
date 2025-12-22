@@ -1,6 +1,5 @@
 import CustomerForm from '@/components/forms/customerForm/CustomerForm';
 import React from 'react';
-import Applications from './Applications';
 import Actions from './Actions';
 import { redirect } from 'next/navigation';
 import hasAccess from '@/hooks/useAccessControl/hasAccess';
@@ -37,7 +36,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <Actions />
       </div>
       <CustomerForm customerData={customerData} isView={true} />
-      <Applications />
+      {/* <Applications /> */}
     </div>
   );
 };

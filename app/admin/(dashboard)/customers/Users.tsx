@@ -23,7 +23,7 @@ interface UsersProps {
 }
 
 // Component
-const UsersPage = ({ customersData, currentPage }: UsersProps) => {
+const UsersPage = ({ customersData }: UsersProps) => {
   // Filter only users with role "user"
   const customers = customersData.data;
 
@@ -37,7 +37,7 @@ const UsersPage = ({ customersData, currentPage }: UsersProps) => {
       header: 'Name',
       accessor: 'firstName',
       render: (row: CustomerDataType) => (
-        <div className="flex items-center gap-2 font-medium">
+        <div className="text-center">
           {/* <Avatar>
             <AvatarImage src={row.profilePicture || 'https://github.com/shadcn.png'} />
             <AvatarFallback>
@@ -45,9 +45,7 @@ const UsersPage = ({ customersData, currentPage }: UsersProps) => {
               {row.lastName?.charAt(0)}
             </AvatarFallback>
           </Avatar> */}
-          <span>
-            {row.firstName} {row.lastName || ''}
-          </span>
+          {row.firstName} {row.lastName || ''}
         </div>
       ),
     },

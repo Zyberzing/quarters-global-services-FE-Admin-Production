@@ -54,6 +54,7 @@ export const customerFormSchema = z.object({
   city: commonFieldSchema(),
   state: commonFieldSchema(),
   pincode: postalCodeSchema(),
+  status: commonFieldSchema().optional(),
 });
 export const customerEditFormSchema = customerFormSchema.extend({
   email: emailSchema().optional().or(z.literal('')),
@@ -96,6 +97,7 @@ const CustomerForm = ({
       city: customerData?.address?.city || '',
       state: customerData?.address?.state || '',
       pincode: customerData?.address?.zipCode || '',
+      status: customerData?.status || undefined,
     },
   });
   console.log(form.formState.errors, ':Customer form errors');
@@ -168,6 +170,7 @@ const CustomerForm = ({
       city: customerData?.address?.city || '',
       state: customerData?.address?.state || '',
       pincode: customerData?.address?.zipCode || '',
+      status: customerData?.status || undefined,
     });
   }, [customerData]);
   return (
@@ -328,6 +331,30 @@ const CustomerForm = ({
                 </FormItem>
               )}
             />
+
+            {isEdit && (
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={'ACTIVE'}>Active</SelectItem>
+                        <SelectItem value={'INACTIVE'}>Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
           <div className="p-4 border rounded-lg grid sm:grid-cols-2 gap-4">
             {isView && <div className="col-span-2  border-b pb-2 font-semibold">Address</div>}

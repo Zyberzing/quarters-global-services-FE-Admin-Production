@@ -97,7 +97,6 @@ export const getCustomerById = async (id: string): Promise<CustomerDataType> => 
 export const createCustomer = async (body: CustomerFormSchemaType) => {
   try {
     const prePareData = {
-      role: 'user',
       firstName: body.firstName,
       lastName: body.lastName,
       email: body.email,
@@ -107,6 +106,7 @@ export const createCustomer = async (body: CustomerFormSchemaType) => {
       alternatePhone: body.alternatePhone || '',
       dob: body.dateOfBirth || '',
       gender: body.gender || 'other',
+      status: body.status || undefined,
       address: {
         addressLine1: body.address || '',
         addressLine2: '',
@@ -140,6 +140,7 @@ export const editCustomer = async (id: string, body: CustomerEditFormSchemaType)
       alternatePhone: body.alternatePhone || undefined,
       dob: body.dateOfBirth || undefined,
       gender: body.gender || 'other',
+      status: body.status || undefined,
       address: {
         addressLine1: body.address || undefined,
         addressLine2: '',

@@ -35,7 +35,8 @@ import { ApplicationSource } from '@/lib/types';
 import { commonFieldSchema, emailSchema, phoneNumberSchema } from '@/lib/formSchemaFunctions';
 
 const formSchema = z.object({
-  senderName: commonFieldSchema(),
+  senderFirstName: commonFieldSchema(),
+  senderLastName: commonFieldSchema(),
   senderEmail: emailSchema(),
   senderPhone: phoneNumberSchema(),
   senderCountryCode: commonFieldSchema(),
@@ -79,7 +80,6 @@ const CourierDocumentDeliveryForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {},
   });
-  console.log(form.watch(), 'adfwewdf');
   const onSubmit = handleAsync(async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
@@ -100,9 +100,9 @@ const CourierDocumentDeliveryForm = ({
       // Application data
       const applicationPayload = {
         // Compulsory fields for application and also for create user
-        email: values.senderName,
-        firstName: values.senderName,
-        lastName: '',
+        email: values.senderEmail,
+        firstName: values.senderFirstName,
+        lastName: values.senderLastName,
         countryCode: values.senderCountryCode,
         isSubmittedFromService: true,
         phone: values.senderPhone,
@@ -175,10 +175,23 @@ const CourierDocumentDeliveryForm = ({
           {isView && <p className=" font-semibold col-span-2 border-b pb-2">Vehicle Details</p>}
           <FormField
             control={form.control}
-            name="senderName"
+            name="senderFirstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sender Name</FormLabel>
+                <FormLabel>Sender First Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="senderLastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sender Last Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
