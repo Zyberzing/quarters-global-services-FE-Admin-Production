@@ -33,6 +33,7 @@ import {
 } from '@/lib/formSchemaFunctions';
 import { OtpVerificationDialog } from '@/components/shared/OtpVerificationDialog';
 import { resendOtpToUser, verifyUser } from '@/services/usersService';
+import { requiredFileSchema } from '../applicationForm/schemas';
 
 // ---------------- Schema aligned with backend ---------------- //
 const formSchema = z.object({
@@ -59,10 +60,10 @@ const formSchema = z.object({
   }),
 
   // File uploads
-  governmentBusinessRegistrationCertificate: z.any(),
-  identityProofOfRepresentative: z.any(),
-  authorizationLetter: z.any(),
-  bankStatement: z.any().optional(),
+  governmentBusinessRegistrationCertificate: requiredFileSchema.optional(),
+  identityProofOfRepresentative: requiredFileSchema.optional(),
+  authorizationLetter: requiredFileSchema.optional(),
+  bankStatement: requiredFileSchema.optional(),
 });
 
 export type AgencyFormType = z.infer<typeof formSchema>;
@@ -221,6 +222,7 @@ const AgencyForm = ({ isView = false, isEdit = false, agencyData }: Props) => {
 
       console.log(response, 'response');
       toast.success('OTP verified successfully!');
+      router.push('/admin/agencies');
       setOtpUserId(null);
     } catch (err: any) {
       toast.error(err.message || 'OTP verification failed');
