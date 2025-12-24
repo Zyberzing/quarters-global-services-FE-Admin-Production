@@ -300,11 +300,15 @@ const AgencyForm = ({ isView = false, isEdit = false, agencyData }: Props) => {
                       </Button>
                     )}
                     {/* Approval Modal Trigger */}
-                    <AgencyApprovalModal
-                      agencyId={agencyData?._id || ''}
-                      status={agencyData?.registrationStatus || ''}
-                      approvalNotes={agencyData?.approvalNotes || ''}
-                    />
+                    {agencyData?.registrationStatus !== 'APPROVED' ? (
+                      <AgencyApprovalModal
+                        agencyId={agencyData?._id || ''}
+                        status={agencyData?.registrationStatus || ''}
+                        approvalNotes={agencyData?.approvalNotes || ''}
+                      />
+                    ) : (
+                      ''
+                    )}
                   </div>
                 </div>
 

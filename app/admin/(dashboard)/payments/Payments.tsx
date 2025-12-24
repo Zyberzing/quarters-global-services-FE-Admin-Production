@@ -1,3 +1,4 @@
+'use client';
 import CommonTable from '@/components/common/CommonTable';
 import Paginator from '@/components/shared/paginator';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +9,7 @@ import { Eye } from 'lucide-react';
 import PaymentDetailsModal from './PaymentDetailsModal';
 import CommonFilters from '@/components/common/CommonFilters';
 import { ExcelExportButton } from '@/components/shared/ExcelExportButton';
+import { format } from 'date-fns';
 
 // Dummy Data
 
@@ -93,15 +95,13 @@ const Payments = ({
     service: e.paymentMode,
     serviceType: e.paymentMode,
     mode: e.paymentMode,
-    date: e.updatedAt ? new Date(e.updatedAt).toLocaleDateString() : '-',
-    time: e.updatedAt
-      ? new Date(e.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      : '-',
+    date: e.updatedAt ? format(new Date(e.updatedAt), 'dd-MM-yyyy') : '-',
+    time: e.updatedAt ? format(new Date(e.updatedAt), 'hh:mm a') : '-',
     status: e.paymentStatus,
     avatar: '',
     transaction: e,
   }));
-
+  console.log(payments, 'payments');
   return (
     <div className="space-y-2">
       {/* Filters */}

@@ -10,6 +10,7 @@ export interface SupportDataType {
   email: string;
   supportType: string;
   date: string;
+  message?: string;
   avatar?: string;
   isDeleted: boolean;
   deletedBy?: string | null;

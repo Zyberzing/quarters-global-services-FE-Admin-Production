@@ -37,7 +37,6 @@ const ViewSupportPage = async ({ params }: { params: Promise<{ id: string }> }) 
       minute: '2-digit',
     });
   };
-
   return (
     <div>
       <div className="mb-4">
@@ -104,6 +103,10 @@ const ViewSupportPage = async ({ params }: { params: Promise<{ id: string }> }) 
                 <label className="text-sm font-medium text-gray-600">Last Updated</label>
                 <p className="text-sm">{formatDate(supportData.updatedAt)}</p>
               </div>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-gray-600">Message</label>
+              <p className="text-sm">{supportData.message || '-'}</p>
             </div>
           </div>
         </div>

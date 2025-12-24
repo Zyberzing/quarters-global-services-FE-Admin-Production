@@ -81,13 +81,21 @@ const ApplicationsPage = ({
       header: 'Applicant Name',
       accessor: 'name',
     },
-    // {
-    //   header: 'Service',
-    //   accessor: 'service',
-    // },
+    {
+      header: 'Service',
+      accessor: 'service',
+    },
     {
       header: 'Service Type',
       accessor: 'serviceType',
+    },
+    {
+      header: 'From',
+      accessor: 'from',
+    },
+    {
+      header: 'To',
+      accessor: 'to',
     },
     {
       header: 'Phone',
@@ -146,8 +154,10 @@ const ApplicationsPage = ({
     id: data._id,
     name: data.firstName,
     avatar: '/avatars/avatar1.jpg',
-    service: data.serviceFields.serviceType,
-    serviceType: data.serviceFields?.service,
+    service: data.serviceFields?.service,
+    serviceType: data.serviceFields.serviceType,
+    from: data?.fromCountryId?.name || '-',
+    to: data?.toCountryId?.name || '-',
     phone: data.phone,
     email: data.email,
     totalAmount: data?.totalAmount,
