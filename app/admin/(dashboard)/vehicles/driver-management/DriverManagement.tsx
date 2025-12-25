@@ -61,7 +61,6 @@ const DriverManagement = ({
     {
       header: 'Phone',
       accessor: 'phone',
-      render: (row: any) => `${row.countryCode} ${row.phone}`,
     },
     {
       header: 'License Number',

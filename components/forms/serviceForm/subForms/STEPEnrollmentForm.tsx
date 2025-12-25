@@ -212,7 +212,7 @@ const STEPEnrollmentForm = ({
                   <PhoneInput2
                     value={field.value}
                     onChange={(val, df) => {
-                      field.onChange(val);
+                      field.onChange(val ? `+${val}` : '');
                       form.setValue('countryCode', `+${df.dialCode || ''}`);
                     }}
                     disabled={isView}

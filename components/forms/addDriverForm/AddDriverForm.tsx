@@ -26,6 +26,8 @@ import {
 import { FileInput } from '@/components/ui/file-input';
 import { toast } from 'sonner';
 import { UserTypeENUM } from '@/lib/types';
+import { PhoneInput2 } from '@/components/ui/PhoneInput2';
+import { format } from 'date-fns';
 
 const formSchema = z.object({
   fullName: z.string().min(1, 'Full Name is required'),
@@ -60,7 +62,7 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
     defaultValues: {
       fullName: driverData?.fullName || '',
       email: driverData?.email || '',
-      countryCode: driverData?.countryCode || '+91',
+      countryCode: driverData?.countryCode || '',
       phone: driverData?.phone || '',
       address: driverData?.address || '',
       city: driverData?.city || '',
@@ -128,8 +130,6 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
         status: values.status,
       };
 
-      console.log('Payload being sent:', payload);
-
       let response;
       if (isEdit && driverData?._id) {
         // Update existing driver
@@ -196,25 +196,18 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
           />
           <FormField
             control={form.control}
-            name="countryCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country Code</FormLabel>
-                <FormControl>
-                  <Input placeholder="+91" disabled={isView} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input placeholder="" disabled={isView} {...field} />
+                  <PhoneInput2
+                    value={field.value}
+                    onChange={(val, df) => {
+                      field.onChange(val ? `+${val}` : '');
+                      form.setValue('countryCode', `+${df.dialCode || ''}`);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -240,7 +233,13 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
               <FormItem>
                 <FormLabel>License Expiry Date</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder="" disabled={isView} {...field} />
+                  <Input
+                    type="date"
+                    placeholder=""
+                    min={format(new Date(), 'yyyy-MM-dd')}
+                    disabled={isView}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

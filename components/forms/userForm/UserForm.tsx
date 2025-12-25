@@ -208,7 +208,7 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
                           field.onChange('');
                           return;
                         }
-                        field.onChange(val);
+                        field.onChange(val ? `+${val}` : '');
                         form.setValue('countryCode', `+${df.dialCode || ''}`);
                       }}
                     />

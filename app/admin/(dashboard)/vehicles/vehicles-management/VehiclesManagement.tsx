@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Paginator from '@/components/shared/paginator';
 import CommonFilters from '@/components/common/CommonFilters';
+import { Badge } from '@/components/ui/badge';
 
 // ============================
 // Main Component
@@ -91,6 +92,13 @@ const VehiclesManagement = ({
     {
       header: 'Status',
       accessor: 'status',
+      render: (row: any) => {
+        return (
+          <Badge variant="outline" className="capitalize">
+            {row.status}
+          </Badge>
+        );
+      },
     },
     {
       header: 'Action',

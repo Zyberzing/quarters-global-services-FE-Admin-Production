@@ -3,7 +3,6 @@
 import CommonTable from '@/components/common/CommonTable';
 import DeleteConfirm from '@/components/common/DeleteConfirm';
 import Icon from '@/components/common/Icon';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -15,6 +14,8 @@ import { useRouter } from 'next/navigation';
 import Paginator from '@/components/shared/paginator';
 import { ExcelExportButton } from '@/components/shared/ExcelExportButton';
 import CommonFilters from '@/components/common/CommonFilters';
+import { Badge } from '@/components/ui/badge';
+import { formatCurrency } from '@/lib/formatCurrency';
 
 const VehiclesBookings = ({
   bookingData,
@@ -49,15 +50,6 @@ const VehiclesBookings = ({
     {
       header: 'Name',
       accessor: 'fullName',
-      render: (row: any) => (
-        <div className="flex items-center gap-2 font-medium">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt={row.fullName} />
-            <AvatarFallback>{row.fullName?.substring(0, 2).toUpperCase()}</AvatarFallback>
-          </Avatar>
-          <p>{row.fullName}</p>
-        </div>
-      ),
     },
     {
       header: 'Phone',
@@ -101,14 +93,21 @@ const VehiclesBookings = ({
     {
       header: 'Amount',
       accessor: 'amount',
+      render: (row: any) => <span>{formatCurrency({ amount: row.amount })}</span>,
     },
     {
       header: 'Payment Status',
       accessor: 'paymentStatus',
+      render: (row: any) => {
+        return <Badge variant="outline">{row.paymentStatus}</Badge>;
+      },
     },
     {
       header: 'Booking Status',
       accessor: 'bookingStatus',
+      render: (row: any) => {
+        return <Badge variant="outline">{row.bookingStatus}</Badge>;
+      },
     },
     {
       header: 'Action',

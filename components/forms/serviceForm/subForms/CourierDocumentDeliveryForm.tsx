@@ -222,7 +222,7 @@ const CourierDocumentDeliveryForm = ({
                   <PhoneInput2
                     value={field.value}
                     onChange={(val, df) => {
-                      field.onChange(val);
+                      field.onChange(val ? `+${val}` : '');
                       form.setValue('senderCountryCode', `+${df.dialCode || ''}`);
                     }}
                     disabled={isView}
@@ -308,7 +308,7 @@ const CourierDocumentDeliveryForm = ({
                   <PhoneInput2
                     value={field.value}
                     onChange={(val) => {
-                      field.onChange(val);
+                      field.onChange(val ? `+${val}` : '');
                     }}
                     disabled={isView}
                   />
