@@ -2,6 +2,7 @@
 import { useFormContext } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 
 export default function ReferenceIndia({ isView = false }: { isView?: boolean }) {
   const form = useFormContext();
@@ -68,7 +69,13 @@ export default function ReferenceIndia({ isView = false }: { isView?: boolean })
           <FormItem>
             <FormLabel>Telephone</FormLabel>
             <FormControl>
-              <Input readOnly={isView} {...field} />
+              <PhoneInput2
+                value={field.value}
+                onChange={(val) => {
+                  field.onChange(val ? `+${val}` : '');
+                }}
+                disabled={isView}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 
 export default function ContactInfo({ isView = false }: { isView?: boolean }) {
   const form = useFormContext();
@@ -164,7 +165,13 @@ export default function ContactInfo({ isView = false }: { isView?: boolean }) {
           <FormItem>
             <FormLabel>Home Telephone</FormLabel>
             <FormControl>
-              <Input readOnly={isView} {...field} />
+              <PhoneInput2
+                value={field.value}
+                onChange={(val) => {
+                  field.onChange(val ? `+${val}` : '');
+                }}
+                disabled={isView}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -177,7 +184,13 @@ export default function ContactInfo({ isView = false }: { isView?: boolean }) {
           <FormItem>
             <FormLabel>Mobile Telephone</FormLabel>
             <FormControl>
-              <Input readOnly={isView} {...field} />
+              <PhoneInput2
+                value={field.value}
+                onChange={(val) => {
+                  field.onChange(val ? `+${val}` : '');
+                }}
+                disabled={isView}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

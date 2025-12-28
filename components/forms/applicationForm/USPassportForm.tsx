@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 
 interface USPassportFormProps {
   isView?: boolean;
@@ -505,7 +506,13 @@ const USPassportForm = ({ isView = false }: USPassportFormProps) => {
                 Primary Phone Number <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input placeholder="Primary Phone Number" readOnly={isView} {...field} />
+                <PhoneInput2
+                  value={field.value}
+                  onChange={(val) => {
+                    field.onChange(val ? `+${val}` : '');
+                  }}
+                  disabled={isView}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -519,7 +526,13 @@ const USPassportForm = ({ isView = false }: USPassportFormProps) => {
             <FormItem>
               <FormLabel>Additional Contact Phone Numbers</FormLabel>
               <FormControl>
-                <Input placeholder="Additional Phone Numbers" readOnly={isView} {...field} />
+                <PhoneInput2
+                  value={field.value}
+                  onChange={(val) => {
+                    field.onChange(val ? `+${val}` : '');
+                  }}
+                  disabled={isView}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -973,7 +986,13 @@ const USPassportForm = ({ isView = false }: USPassportFormProps) => {
             <FormItem>
               <FormLabel>Phone Number</FormLabel>
               <FormControl>
-                <Input placeholder="Phone Number" readOnly={isView} {...field} />
+                <PhoneInput2
+                  value={field.value}
+                  onChange={(val) => {
+                    field.onChange(val ? `+${val}` : '');
+                  }}
+                  disabled={isView}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
