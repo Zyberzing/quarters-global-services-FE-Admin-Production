@@ -14,6 +14,9 @@ import { Badge } from '@/components/ui/badge';
 import { TransactionDataType } from '@/services/transactionService';
 import { formatCurrency } from '@/lib/formatCurrency';
 import { ReactNode } from 'react';
+import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from '@/components/ui/card';
+import { format } from 'date-fns';
 
 // interface Transaction {
 //   id: string;
@@ -43,10 +46,10 @@ function PaymentDetailsModal({ children, transaction }: Props) {
         </DialogHeader>
 
         <div className="space-y-3 py-2 text-sm">
-          {/* <div className="flex justify-between">
+          <div className="flex justify-between">
             <span className="font-medium text-muted-foreground">Payment ID</span>
             <span>{transaction._id}</span>
-          </div> */}
+          </div>
 
           <div className="flex justify-between">
             <span className="font-medium text-muted-foreground">Name</span>
@@ -66,31 +69,23 @@ function PaymentDetailsModal({ children, transaction }: Props) {
           </div>
 
           <div className="flex justify-between">
-            <span className="font-medium text-muted-foreground">Service</span>
-            {/* <span>{transaction.service}</span> */}
-          </div>
-
-          <div className="flex justify-between">
-            <span className="font-medium text-muted-foreground">Service Type</span>
-            {/* <span>{transaction.serviceType}</span> */}
+            <span className="font-medium text-muted-foreground">Payment Type</span>
+            <span>{transaction.paymentType}</span>
           </div>
 
           <div className="flex justify-between">
             <span className="font-medium text-muted-foreground">Payment Method</span>
             <span>{transaction.paymentMode}</span>
           </div>
+
           <div className="flex justify-between">
             <span className="font-medium text-muted-foreground">Date </span>
             <span>{new Date(transaction.updatedAt).toLocaleDateString()}</span>
           </div>
+
           <div className="flex justify-between">
             <span className="font-medium text-muted-foreground">Time</span>
-            <span>
-              {new Date(transaction.updatedAt).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </span>
+            <span>{format(new Date(transaction.updatedAt), 'hh:mm a')}</span>
           </div>
 
           <div className="flex justify-between">
@@ -102,6 +97,26 @@ function PaymentDetailsModal({ children, transaction }: Props) {
               {transaction.paymentStatus}
             </Badge>
           </div>
+        </div>
+
+        <Separator />
+        <div className="space-y-4">
+          <p>Applications</p>
+
+          {transaction.applicationServices.map((e) => (
+            <Card key={e._id} className="py-2">
+              <CardContent className="spz-2">
+                <div className="flex justify-between">
+                  <span className="font-medium text-muted-foreground">Service</span>
+                  <span>{e.application.serviceFields.service}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium text-muted-foreground">Service Category</span>
+                  <span>{e.application.serviceFields.serviceType}</span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
         <DialogFooter>

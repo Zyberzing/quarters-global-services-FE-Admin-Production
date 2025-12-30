@@ -305,6 +305,9 @@ const AgencyForm = ({ isView = false, isEdit = false, agencyData }: Props) => {
                         agencyId={agencyData?._id || ''}
                         status={agencyData?.registrationStatus || ''}
                         approvalNotes={agencyData?.approvalNotes || ''}
+                        onStatusChange={() => {
+                          router.refresh();
+                        }}
                       />
                     ) : (
                       ''
@@ -399,7 +402,12 @@ const AgencyForm = ({ isView = false, isEdit = false, agencyData }: Props) => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isView} placeholder="Enter email" type="email" />
+                      <Input
+                        {...field}
+                        disabled={isView || isEdit}
+                        placeholder="Enter email"
+                        type="email"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

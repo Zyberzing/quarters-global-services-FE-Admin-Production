@@ -14,13 +14,14 @@ export type TransactionDataType = {
   paymentStatus: string;
   paymentType: string;
   paymentMode: string;
-  relatedApplicationIds: string[][];
   relatedShippingIds: any[];
   transactionSource: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
   user: UserDataType;
+  relatedApplicationIds: string[];
+  applicationServices: any[];
 };
 
 export const getTransactions = async ({

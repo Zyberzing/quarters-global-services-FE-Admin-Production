@@ -11,22 +11,11 @@ import CommonFilters from '@/components/common/CommonFilters';
 import { ExcelExportButton } from '@/components/shared/ExcelExportButton';
 import { format } from 'date-fns';
 
-// Dummy Data
-
 // Columns
 const columns = [
   {
     header: 'Name',
     accessor: 'name',
-    render: (row: any) => (
-      <div className="flex items-center justify-center gap-2 font-medium">
-        {/* <Avatar>
-          <AvatarImage src={row.avatar || 'https://github.com/shadcn.png'} />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar> */}
-        <span>{row.name}</span>
-      </div>
-    ),
   },
   {
     header: 'Email',
@@ -37,17 +26,22 @@ const columns = [
     accessor: 'amount',
   },
   {
-    header: 'Service',
-    accessor: 'service',
-  },
-  {
-    header: 'Service Type',
-    accessor: 'serviceType',
-  },
-  {
     header: 'Payment Method',
-    accessor: 'mode',
-    render: (row: any) => <span className="capitalize">{row.mode}</span>,
+    accessor: 'paymentMode',
+    render: (row: any) => (
+      <Badge variant="outline" className="capitalize">
+        {row.paymentMode}
+      </Badge>
+    ),
+  },
+  {
+    header: 'Payment Type',
+    accessor: 'paymentType',
+    render: (row: any) => (
+      <Badge variant="outline" className="capitalize">
+        {row.paymentType}
+      </Badge>
+    ),
   },
   {
     header: 'Date',
@@ -59,13 +53,14 @@ const columns = [
   },
   {
     header: 'Payment Status',
-    accessor: 'status',
+    accessor: 'paymentStatus',
     render: (row: any) => (
       <Badge variant="default" className="capitalize">
-        {row.status}
+        {row.paymentStatus}
       </Badge>
     ),
   },
+
   {
     header: 'Action',
     accessor: 'action',
@@ -91,21 +86,43 @@ const Payments = ({
   const payments = transactionsData.data.map((e) => ({
     name: (e.user?.firstName || '-') + ' ' + (e.user?.lastName || ''),
     email: e.user?.email || '-',
+
     amount: `${e.amount}$` || '0',
-    service: e.paymentMode,
-    serviceType: e.paymentMode,
-    mode: e.paymentMode,
+
+    paymentMode: e.paymentMode,
+    paymentStatus: e.paymentStatus,
+    paymentType: e.paymentType,
+
     date: e.updatedAt ? format(new Date(e.updatedAt), 'dd-MM-yyyy') : '-',
     time: e.updatedAt ? format(new Date(e.updatedAt), 'hh:mm a') : '-',
-    status: e.paymentStatus,
-    avatar: '',
+
     transaction: e,
   }));
+
   return (
     <div className="space-y-2">
       {/* Filters */}
       <div className="flex items-center justify-end gap-2">
-        <ExcelExportButton rows={transactionsData?.data || []} filename="payments.xlsx" />
+        <ExcelExportButton
+          rows={
+            payments.map((e) => ({
+              Name: e.name,
+              Email: e.email,
+
+              Amount: e.amount,
+
+              'Payment Mode': e.paymentMode,
+              'Payment Status': e.paymentStatus,
+              'Payment Type': e.paymentType,
+
+              Date: e.date,
+              Time: e.time,
+
+              Applications: e.transaction.relatedApplicationIds,
+            })) || []
+          }
+          filename="payments.xlsx"
+        />
         <CommonFilters showDateFilters={false} />
       </div>
 
