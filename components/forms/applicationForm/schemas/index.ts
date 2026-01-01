@@ -1,133 +1,42 @@
 // Main schemas index file - exports all schemas and types
 import { z } from 'zod';
+import { emptySchema } from './common';
+import { usaVisaSchemas } from './usa/visa';
+import { usaPassportSchemas } from './usa/passport';
+import { indiaVisaSchemas } from './india/visa';
+import { indiaEVisaSchemas } from './india/evisa';
+import { indiaPassportSchemas } from './india/passport';
+import { indiaOciSchemas } from './india/oci';
+import { indiaConsularSchemas } from './india/consular';
+import { indiaIcpSchemas } from './india/icp';
+import { otherVisaSchemas } from './other/visa';
 
-// Export all schemas and common types
-export * from './usa/visa';
+// Export all schemas
+export * as UsaVisa from './usa/visa';
 export * from './usa/passport';
 export * from './india/visa';
 export * from './india/passport';
+export * from './india/evisa';
+export * from './india/oci';
+export * from './india/consular';
+export * from './india/icp';
+export * from './other/visa';
 export * from './common';
-
-// Import additional schema functions
-
-// Import all schemas for the discriminated union
-import {
-  // USA Visa Schemas
-  visaUSB1B2Schema,
-  visaUSStudentSchema,
-  visaUSExchangeVisitorSchema,
-  visaUSBusinessSchema,
-  visaUSTemporaryWorkerSchema,
-  visaUSIntraCompanyTransferSchema,
-  visaUSExtraordinaryAbilitySchema,
-  visaUSAthleteArtistSchema,
-  visaUSReligiousWorkerSchema,
-  visaUSNAFTASchema,
-  visaUSImmediateRelativeSchema,
-  visaUSFamilyPreferenceSchema,
-  visaUSEmploymentBasedSchema,
-  visaUSDiversityLotterySchema,
-  visaUSFianceSchema,
-  visaUSSpouseSchema,
-  visaUSWitnessInformantSchema,
-  visaUSTraffickingVictimsSchema,
-  visaUSCrimeVictimsSchema,
-} from './usa/visa';
-
-import {
-  // USA Passport Schemas
-  passportUSANewDS11Schema,
-  passportUSARenewalDS82Schema,
-  passportUSAChildUnder16Schema,
-  passportUSACardSchema,
-  passportUSANameChangeCorrectionSchema,
-  passportUSASecondValidSchema,
-  passportUSAExpeditedServiceSchema,
-  passportUSAEmergencySameDaySchema,
-  passportUSADamagedSchema,
-  passportUSAStolenSchema,
-  passportUSALostSchema,
-} from './usa/passport';
-
-import {
-  // India Visa Schemas
-  visaIndiaTouristSchema,
-  visaIndiaBusinessSchema,
-  visaIndiaStudentSchema,
-  visaIndiaMedicalSchema,
-  visaIndiaConferenceSchema,
-  visaIndiaEmploymentSchema,
-  // visaIndiaEVisaTouristSchema,
-  // visaIndiaEVisaBusinessSchema,
-  // visaIndiaEVisaMedicalSchema,
-} from './india/visa';
-
-import {
-  // India Passport Schemas
-  passportIndiaNewAdultSchema,
-  passportIndiaNewMinorSchema,
-  passportIndiaRenewalAdultSchema,
-  passportIndiaRenewalMinorSchema,
-  passportIndiaLostDamagedSchema,
-  passportIndiaTatkalSchema,
-  passportIndiaNameChangeSchema,
-} from './india/passport';
-import { emptySchema } from './common';
 
 // ---- Union ----
 export const serviceDocumentsSchemas = z.discriminatedUnion('serviceType', [
-  emptySchema, // Default empty schema
-  // USA Visa Schemas
-  visaUSB1B2Schema,
-  visaUSStudentSchema,
-  visaUSExchangeVisitorSchema,
-  visaUSBusinessSchema,
-  visaUSTemporaryWorkerSchema,
-  visaUSIntraCompanyTransferSchema,
-  visaUSExtraordinaryAbilitySchema,
-  visaUSAthleteArtistSchema,
-  visaUSReligiousWorkerSchema,
-  visaUSNAFTASchema,
-  visaUSImmediateRelativeSchema,
-  visaUSFamilyPreferenceSchema,
-  visaUSEmploymentBasedSchema,
-  visaUSDiversityLotterySchema,
-  visaUSFianceSchema,
-  visaUSSpouseSchema,
-  visaUSWitnessInformantSchema,
-  visaUSTraffickingVictimsSchema,
-  visaUSCrimeVictimsSchema,
-  // India Visa Schemas
-  visaIndiaTouristSchema,
-  visaIndiaBusinessSchema,
-  visaIndiaStudentSchema,
-  visaIndiaMedicalSchema,
-  visaIndiaConferenceSchema,
-  visaIndiaEmploymentSchema,
-  // visaIndiaEVisaTouristSchema,
-  // visaIndiaEVisaBusinessSchema,
-  // visaIndiaEVisaMedicalSchema,
-  // USA Passport Schemas
-  passportUSANewDS11Schema,
-  passportUSARenewalDS82Schema,
-  passportUSAChildUnder16Schema,
-  passportUSALostSchema,
-  passportUSAStolenSchema,
-  passportUSADamagedSchema,
-  passportUSACardSchema,
-  passportUSANameChangeCorrectionSchema,
-  passportUSASecondValidSchema,
-  passportUSAExpeditedServiceSchema,
-  passportUSAEmergencySameDaySchema,
-  // India Passport Schemas
-  passportIndiaNewAdultSchema,
-  passportIndiaNewMinorSchema,
-  passportIndiaRenewalAdultSchema,
-  passportIndiaRenewalMinorSchema,
-  passportIndiaLostDamagedSchema,
-  passportIndiaTatkalSchema,
-  passportIndiaNameChangeSchema,
-]);
+  emptySchema,
+
+  ...usaVisaSchemas,
+  ...usaPassportSchemas,
+  ...indiaVisaSchemas,
+  ...indiaEVisaSchemas,
+  ...indiaPassportSchemas,
+  ...indiaOciSchemas,
+  ...indiaConsularSchemas,
+  ...indiaIcpSchemas,
+  ...otherVisaSchemas,
+] as const);
 
 // Base schema for application form
 const baseSchema = z.object({
