@@ -1,12 +1,8 @@
 import { z } from 'zod';
-import { requiredFileSchema, serviceTypes } from '../common';
-
-// =======================================================
-// USA VISITOR VISA (B1/B2)
-// =======================================================
+import { requiredFileSchema } from '../common';
 
 export const visaUSB1B2Schema = z.object({
-  serviceType: z.literal(serviceTypes['b1b2-visitor-visa']),
+  serviceType: z.literal('b1b2-visitor-visa'),
 
   validPassport: requiredFileSchema.optional(),
   ds160Confirmation: requiredFileSchema.optional(),
@@ -16,17 +12,12 @@ export const visaUSB1B2Schema = z.object({
   bankStatements: requiredFileSchema.optional(),
   invitationLetter: requiredFileSchema.optional(),
 
-  // ✅ Excel
   employmentProof: requiredFileSchema.optional(),
   propertyOwnershipProof: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA STUDENT VISA (F1)
-// =======================================================
-
 export const visaUSStudentSchema = z.object({
-  serviceType: z.literal(serviceTypes['f1-student-visa']),
+  serviceType: z.literal('f1-student-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -37,16 +28,11 @@ export const visaUSStudentSchema = z.object({
   academicRecords: requiredFileSchema,
   bankStatementsSponsorLetter: requiredFileSchema,
 
-  // ✅ Excel
   englishProficiencyProof: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA EXCHANGE VISITOR VISA (J1)
-// =======================================================
-
 export const visaUSExchangeVisitorSchema = z.object({
-  serviceType: z.literal(serviceTypes['j1-exchange-visa']),
+  serviceType: z.literal('j1-exchange-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -56,16 +42,11 @@ export const visaUSExchangeVisitorSchema = z.object({
   sponsorLetter: requiredFileSchema,
   proofOfFunds: requiredFileSchema,
 
-  // ✅ Excel
   trainingProgramDetails: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA BUSINESS / WORK VISA (H1B)
-// =======================================================
-
 export const visaUSBusinessSchema = z.object({
-  serviceType: z.literal(serviceTypes['h1b-work-visa']),
+  serviceType: z.literal('h1b-work-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -75,16 +56,11 @@ export const visaUSBusinessSchema = z.object({
   degreesCertificates: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   resumeCV: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA TEMPORARY WORKER VISA (H2A / H2B)
-// =======================================================
-
 export const visaUSTemporaryWorkerSchema = z.object({
-  serviceType: z.literal(serviceTypes['h2a-h2b-temporary-worker-visa']),
+  serviceType: z.literal('h2a-h2b-temporary-worker-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -93,12 +69,8 @@ export const visaUSTemporaryWorkerSchema = z.object({
   previousVisaHistory: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA INTRA-COMPANY TRANSFER VISA (L1)
-// =======================================================
-
 export const visaUSIntraCompanyTransferSchema = z.object({
-  serviceType: z.literal(serviceTypes['l1-intra-company-transfer']),
+  serviceType: z.literal('l1-intra-company-transfer'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -106,16 +78,11 @@ export const visaUSIntraCompanyTransferSchema = z.object({
   employmentLetters: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   companyRelationshipProof: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA EXTRAORDINARY ABILITY VISA (O1)
-// =======================================================
-
 export const visaUSExtraordinaryAbilitySchema = z.object({
-  serviceType: z.literal(serviceTypes['o1-extraordinary-ability']),
+  serviceType: z.literal('o1-extraordinary-ability'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -123,16 +90,11 @@ export const visaUSExtraordinaryAbilitySchema = z.object({
   evidenceOfExtraordinaryAbility: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   expertOpinionLetters: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA ATHLETE / ARTIST VISA (P1 / P3)
-// =======================================================
-
 export const visaUSAthleteArtistSchema = z.object({
-  serviceType: z.literal(serviceTypes['p1-p3-athlete-artist-visa']),
+  serviceType: z.literal('p1-p3-athlete-artist-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -140,16 +102,11 @@ export const visaUSAthleteArtistSchema = z.object({
   contractsItinerary: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   eventInvitations: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA RELIGIOUS WORKER VISA (R1)
-// =======================================================
-
 export const visaUSReligiousWorkerSchema = z.object({
-  serviceType: z.literal(serviceTypes['r1-religious-worker-visa']),
+  serviceType: z.literal('r1-religious-worker-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -157,16 +114,11 @@ export const visaUSReligiousWorkerSchema = z.object({
   religiousOrganizationLetter: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   religiousQualificationProof: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA NAFTA VISA (TN / TD)
-// =======================================================
-
 export const visaUSNAFTASchema = z.object({
-  serviceType: z.literal(serviceTypes['tntd-nafta-visa']),
+  serviceType: z.literal('tntd-nafta-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -175,12 +127,8 @@ export const visaUSNAFTASchema = z.object({
   passportPhoto: requiredFileSchema,
 });
 
-// =======================================================
-// USA IMMEDIATE RELATIVE VISA (IR)
-// =======================================================
-
 export const visaUSImmediateRelativeSchema = z.object({
-  serviceType: z.literal(serviceTypes['ir-immediate-relative-visa']),
+  serviceType: z.literal('ir-immediate-relative-visa'),
 
   validPassport: requiredFileSchema,
   ds260Confirmation: requiredFileSchema,
@@ -190,16 +138,11 @@ export const visaUSImmediateRelativeSchema = z.object({
   i864AffidavitOfSupport: requiredFileSchema,
   passportPhotos: requiredFileSchema,
 
-  // ✅ Excel
   birthCertificate: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA FAMILY PREFERENCE VISA (F1–F4)
-// =======================================================
-
 export const visaUSFamilyPreferenceSchema = z.object({
-  serviceType: z.literal(serviceTypes['f1-f4-family-preference-visa']),
+  serviceType: z.literal('f1-f4-family-preference-visa'),
 
   validPassport: requiredFileSchema,
   ds260Confirmation: requiredFileSchema,
@@ -208,16 +151,11 @@ export const visaUSFamilyPreferenceSchema = z.object({
   i864AffidavitOfSupport: requiredFileSchema,
   passportPhotos: requiredFileSchema,
 
-  // ✅ Excel
   birthCertificate: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA EMPLOYMENT-BASED VISA (EB)
-// =======================================================
-
 export const visaUSEmploymentBasedSchema = z.object({
-  serviceType: z.literal(serviceTypes['eb1-employment-based-visa']),
+  serviceType: z.literal('eb1-employment-based-visa'),
 
   validPassport: requiredFileSchema,
   ds260Confirmation: requiredFileSchema,
@@ -226,16 +164,11 @@ export const visaUSEmploymentBasedSchema = z.object({
   policeCertificates: requiredFileSchema,
   passportPhotos: requiredFileSchema,
 
-  // ✅ Excel
   jobOfferLetter: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA DIVERSITY LOTTERY VISA (DV)
-// =======================================================
-
 export const visaUSDiversityLotterySchema = z.object({
-  serviceType: z.literal(serviceTypes['dv-lottery-visa']),
+  serviceType: z.literal('dv-lottery-visa'),
 
   validPassport: requiredFileSchema,
   selectionLetter: requiredFileSchema,
@@ -245,12 +178,8 @@ export const visaUSDiversityLotterySchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-// =======================================================
-// USA FIANCÉ(E) VISA (K1)
-// =======================================================
-
 export const visaUSFianceSchema = z.object({
-  serviceType: z.literal(serviceTypes['k1-fiancee-visa-1']),
+  serviceType: z.literal('k1-fiancee-visa-1'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -260,16 +189,11 @@ export const visaUSFianceSchema = z.object({
   policeCertificates: requiredFileSchema,
   passportPhotos: requiredFileSchema,
 
-  // ✅ Excel
   relationshipChatProof: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA SPOUSE VISA (K3)
-// =======================================================
-
 export const visaUSSpouseSchema = z.object({
-  serviceType: z.literal(serviceTypes['k3-spouse-visa']),
+  serviceType: z.literal('k3-spouse-visa'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -280,12 +204,8 @@ export const visaUSSpouseSchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-// =======================================================
-// USA WITNESS / INFORMANT VISA (S)
-// =======================================================
-
 export const visaUSWitnessInformantSchema = z.object({
-  serviceType: z.literal(serviceTypes['s-visa-witnessesinformants']),
+  serviceType: z.literal('s-visa-witnessesinformants'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -293,12 +213,8 @@ export const visaUSWitnessInformantSchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-// =======================================================
-// USA TRAFFICKING VICTIM VISA (T)
-// =======================================================
-
 export const visaUSTraffickingVictimsSchema = z.object({
-  serviceType: z.literal(serviceTypes['t-visa-trafficking-victims']),
+  serviceType: z.literal('t-visa-trafficking-victims'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -307,12 +223,8 @@ export const visaUSTraffickingVictimsSchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-// =======================================================
-// USA CRIME VICTIM VISA (U)
-// =======================================================
-
 export const visaUSCrimeVictimsSchema = z.object({
-  serviceType: z.literal(serviceTypes['u-visa-crime-victims']),
+  serviceType: z.literal('u-visa-crime-victims'),
 
   validPassport: requiredFileSchema,
   ds160Confirmation: requiredFileSchema,
@@ -321,24 +233,42 @@ export const visaUSCrimeVictimsSchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-export const usaVisaSchemas = [
-  visaUSB1B2Schema,
-  visaUSStudentSchema,
-  visaUSExchangeVisitorSchema,
-  visaUSBusinessSchema,
-  visaUSTemporaryWorkerSchema,
-  visaUSIntraCompanyTransferSchema,
-  visaUSExtraordinaryAbilitySchema,
-  visaUSAthleteArtistSchema,
-  visaUSReligiousWorkerSchema,
-  visaUSNAFTASchema,
-  visaUSImmediateRelativeSchema,
-  visaUSFamilyPreferenceSchema,
-  visaUSEmploymentBasedSchema,
-  visaUSDiversityLotterySchema,
-  visaUSFianceSchema,
-  visaUSSpouseSchema,
-  visaUSWitnessInformantSchema,
-  visaUSTraffickingVictimsSchema,
-  visaUSCrimeVictimsSchema,
-] as const;
+export const visaUSPetitionerDocumentsSchema = z.object({
+  serviceType: z.literal('petitioner-us-citizen-documents'),
+
+  proofOfUSCitizenship: requiredFileSchema,
+  marriageCertificate: requiredFileSchema.optional(),
+  terminationOfPriorMarriage: requiredFileSchema.optional(),
+  passportStylePhoto: requiredFileSchema,
+  bonaFideRelationshipEvidence: requiredFileSchema,
+});
+
+export const visaUSBeneficiaryDocumentsSchema = z.object({
+  serviceType: z.literal('beneficiary-relative-documents'),
+
+  validPassport: requiredFileSchema,
+  birthCertificate: requiredFileSchema,
+  policeClearance: requiredFileSchema.optional(),
+  passportPhotos: requiredFileSchema,
+});
+
+export const visaUSFinancialEvidenceSchema = z.object({
+  serviceType: z.literal('financial-evidence'),
+
+  taxReturns: requiredFileSchema,
+  w2Forms: requiredFileSchema,
+  payStubs: requiredFileSchema,
+});
+
+export const visaUSAdjustmentOfStatusSchema = z.object({
+  serviceType: z.literal('if-adjusting-status-in-the-us'),
+
+  proofOfLawfulEntry: requiredFileSchema,
+});
+
+export const visaUSConsularProcessingSchema = z.object({
+  serviceType: z.literal('if-applying-from-abroad-consular-processing'),
+
+  visaApplicationForm: requiredFileSchema,
+  civilDocuments: requiredFileSchema,
+});

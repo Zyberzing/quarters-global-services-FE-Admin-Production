@@ -29,6 +29,9 @@ const DocumentForm = ({ selectedCategory, existingDocuments, isView }: DocumentF
 
   const fields = schema ? getSchemaFields(schema) : [];
 
+  if (selectedCategory && !fields.length) {
+    return null;
+  }
   return (
     <>
       {fields.length > 0 ? (

@@ -751,7 +751,7 @@ const ApplicationForm = ({
       <form onSubmit={form.handleSubmit(isEdit ? onEditSubmit : onSubmit)} className="space-y-6">
         {/* Step Indicator */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-lg font-semibold">Application</p>
+          <p className="text-lg font-semibold">Application {JSON.stringify(isEdit)}</p>
           <div className="flex gap-2  ">
             <Select
               onValueChange={handleApplicationStatusChange}
@@ -1029,7 +1029,6 @@ const ApplicationForm = ({
 
         {/*  Documents */}
         <div className="space-y-6">
-          {selectedCategory} - selectedCategory
           <DocumentForm
             isView={isView}
             selectedCategory={selectedCategory}

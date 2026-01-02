@@ -1,42 +1,40 @@
-import { z } from 'zod';
-import { requiredFileSchema } from '../common';
-
 // =======================================
 // INDIA E-TOURIST VISA
 // =======================================
 
-export const indiaETouristVisaSchema = z.object({
-  serviceType: z.literal('india-e-tourist-visa'),
+import z from 'zod';
 
-  passportCopy: requiredFileSchema,
-  photograph: requiredFileSchema,
-});
+// export const ETouristVisaSchema = z.object({
+//   serviceType: z.literal('tourist-e-visa'),
+
+//   passportCopy: requiredFileSchema,
+//   photograph: requiredFileSchema,
+// });
 
 // =======================================
 // INDIA E-BUSINESS VISA
 // =======================================
 
-export const indiaEBusinessVisaSchema = z.object({
-  serviceType: z.literal('india-e-business-visa'),
+// export const EBusinessVisaSchema = z.object({
+//   serviceType: z.literal('business-e-visa'),
 
-  passportCopy: requiredFileSchema,
-  businessCardOrInvitation: requiredFileSchema,
-  photograph: requiredFileSchema,
-});
+//   passportCopy: requiredFileSchema,
+//   businessCardOrInvitation: requiredFileSchema,
+//   photograph: requiredFileSchema,
+// });
 
 // =======================================
 // INDIA E-MEDICAL VISA
 // =======================================
 
-export const indiaEMedicalVisaSchema = z.object({
-  serviceType: z.literal('india-e-medical-visa'),
+// export const EMedicalVisaSchema = z.object({
+//   serviceType: z.literal('medical-e-visa'),
 
-  passportCopy: requiredFileSchema,
-  hospitalLetter: requiredFileSchema,
-  photograph: requiredFileSchema,
+//   passportCopy: requiredFileSchema,
+//   hospitalLetter: requiredFileSchema,
+//   photograph: requiredFileSchema,
+// });
+
+export const emptyVisaSchema = z.object({
+  serviceType: z.literal('empty-e-visa'),
 });
-export const indiaEVisaSchemas = [
-  indiaETouristVisaSchema,
-  indiaEBusinessVisaSchema,
-  indiaEMedicalVisaSchema,
-] as const;

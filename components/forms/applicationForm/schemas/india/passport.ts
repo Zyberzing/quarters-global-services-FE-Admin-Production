@@ -1,12 +1,8 @@
 import { z } from 'zod';
-import { requiredFileSchema, serviceTypes } from '../common';
-
-// =======================================================
-// INDIA NEW PASSPORT – ADULT
-// =======================================================
+import { requiredFileSchema } from '../common';
 
 export const passportIndiaNewAdultSchema = z.object({
-  serviceType: z.literal(serviceTypes['india-passport-new-adult']),
+  serviceType: z.literal('india-passport-new-adult'),
 
   proofOfAddress: requiredFileSchema,
   birthCertificate: requiredFileSchema,
@@ -15,16 +11,11 @@ export const passportIndiaNewAdultSchema = z.object({
   passportPhotos: requiredFileSchema,
   applicationForm: requiredFileSchema,
 
-  // ✅ missing in schema but present in Excel
   policeVerificationDocument: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// INDIA NEW PASSPORT – MINOR
-// =======================================================
-
 export const passportIndiaNewMinorSchema = z.object({
-  serviceType: z.literal(serviceTypes['india-passport-new-minor']),
+  serviceType: z.literal('india-passport-new-minor'),
 
   parentsPassportCopies: requiredFileSchema,
   birthCertificate: requiredFileSchema,
@@ -32,32 +23,22 @@ export const passportIndiaNewMinorSchema = z.object({
   photos: requiredFileSchema,
   applicationForm: requiredFileSchema,
 
-  // ✅ Excel
   parentsConsentForm: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// INDIA PASSPORT RENEWAL – ADULT
-// =======================================================
-
 export const passportIndiaRenewalAdultSchema = z.object({
-  serviceType: z.literal(serviceTypes['adult-renewal']),
+  serviceType: z.literal('adult-renewal'),
 
   oldPassport: requiredFileSchema,
   proofOfAddress: requiredFileSchema,
   applicationForm: requiredFileSchema,
   passportPhotos: requiredFileSchema,
 
-  // ✅ Excel
   policeVerificationDocument: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// INDIA PASSPORT RENEWAL – MINOR
-// =======================================================
-
 export const passportIndiaRenewalMinorSchema = z.object({
-  serviceType: z.literal(serviceTypes['minor-renewal']),
+  serviceType: z.literal('minor-renewal'),
 
   oldPassportMinor: requiredFileSchema,
   parentsIds: requiredFileSchema,
@@ -65,16 +46,11 @@ export const passportIndiaRenewalMinorSchema = z.object({
   photos: requiredFileSchema,
   applicationForm: requiredFileSchema,
 
-  // ✅ Excel
   parentsConsentForm: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// INDIA LOST / DAMAGED PASSPORT
-// =======================================================
-
 export const passportIndiaLostDamagedSchema = z.object({
-  serviceType: z.literal(serviceTypes['lost-passport-1']),
+  serviceType: z.literal('lost-passport-1'),
 
   policeReport: requiredFileSchema,
   oldPassportCopy: requiredFileSchema.optional(),
@@ -82,16 +58,11 @@ export const passportIndiaLostDamagedSchema = z.object({
   photos: requiredFileSchema,
   applicationForm: requiredFileSchema,
 
-  // ✅ Excel
   newspaperAdvertisement: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// INDIA TATKAL PASSPORT
-// =======================================================
-
 export const passportIndiaTatkalSchema = z.object({
-  serviceType: z.literal(serviceTypes['tatkal-passport']),
+  serviceType: z.literal('tatkal-passport'),
 
   proofOfUrgency: requiredFileSchema,
   aadhaarIdProof: requiredFileSchema,
@@ -99,31 +70,85 @@ export const passportIndiaTatkalSchema = z.object({
   applicationForm: requiredFileSchema,
   photos: requiredFileSchema,
 
-  // ✅ Excel
   appointmentConfirmationSlip: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// INDIA NAME CHANGE IN PASSPORT
-// =======================================================
-
 export const passportIndiaNameChangeSchema = z.object({
-  serviceType: z.literal(serviceTypes['india-passport-name-change']),
+  serviceType: z.literal('india-passport-name-change'),
 
   currentPassport: requiredFileSchema,
   gazetteLegalNameChangeCertificate: requiredFileSchema,
   marriageDivorceCertificate: requiredFileSchema.optional(),
   photos: requiredFileSchema,
 
-  // ✅ Excel
   affidavitForNameChange: requiredFileSchema.optional(),
 });
-export const indiaPassportSchemas = [
-  passportIndiaNewAdultSchema,
-  passportIndiaNewMinorSchema,
-  passportIndiaRenewalAdultSchema,
-  passportIndiaRenewalMinorSchema,
-  passportIndiaLostDamagedSchema,
-  passportIndiaTatkalSchema,
-  passportIndiaNameChangeSchema,
-] as const;
+
+export const indiaSurrenderWithPassportSchema = z.object({
+  serviceType: z.literal('surrender-with-indian-passport-1'),
+
+  photograph2x2: requiredFileSchema,
+  signature: requiredFileSchema,
+
+  declarationFromOffice: requiredFileSchema,
+
+  addressProof: requiredFileSchema,
+  indianPassportOriginal: requiredFileSchema,
+  indianPassportCopy: requiredFileSchema,
+
+  usPassportCopy: requiredFileSchema,
+  naturalizationCertificate: requiredFileSchema,
+
+  nameChangeDocument: requiredFileSchema.optional(),
+
+  spouseUsPassportCopy: requiredFileSchema.optional(),
+  spouseIndianPassportOrOciCopy: requiredFileSchema.optional(),
+  marriageCertificate: requiredFileSchema.optional(),
+
+  familyOciCardCopy: requiredFileSchema.optional(),
+  previousIndianVisaCopy: requiredFileSchema.optional(),
+});
+
+export const indiaSurrenderWithoutPassportSchema = z.object({
+  serviceType: z.literal('surrender-without-indian-passport-1'),
+
+  photograph2x2: requiredFileSchema,
+  signature: requiredFileSchema,
+
+  declarationFromOffice: requiredFileSchema,
+
+  addressProof: requiredFileSchema,
+
+  usPassportCopy: requiredFileSchema,
+  naturalizationCertificate: requiredFileSchema,
+
+  proofOfIndianOrigin: requiredFileSchema,
+  policeReport: requiredFileSchema,
+
+  nameChangeDocument: requiredFileSchema.optional(),
+});
+
+export const indiaSurrenderMinorPassportSchema = z.object({
+  serviceType: z.literal('surrender-minor-indian-passport'),
+
+  indianPassportOriginal: requiredFileSchema,
+  indianPassportCopy: requiredFileSchema,
+
+  usPassportCopy: requiredFileSchema,
+
+  parentsNaturalizationCertificate: requiredFileSchema.optional(),
+  parentsPassportCopies: requiredFileSchema,
+
+  familyOciCardCopy: requiredFileSchema.optional(),
+
+  parentsAddressProof: requiredFileSchema,
+
+  previousIndianVisaCopy: requiredFileSchema.optional(),
+
+  photographs2x2: requiredFileSchema,
+
+  nameChangeDocument: requiredFileSchema.optional(),
+
+  parentalAuthorizationForm: requiredFileSchema,
+  swornAffidavitByParents: requiredFileSchema,
+});

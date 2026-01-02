@@ -1,12 +1,8 @@
 ﻿import { z } from 'zod';
-import { requiredFileSchema, serviceTypes } from '../common';
-
-// =======================================================
-// USA NEW PASSPORT (DS-11)
-// =======================================================
+import { requiredFileSchema } from '../common';
 
 export const passportUSANewDS11Schema = z.object({
-  serviceType: z.literal(serviceTypes['new-passport']),
+  serviceType: z.literal('new-passport'),
 
   proofOfCitizenship: requiredFileSchema,
   proofOfIdentity: requiredFileSchema,
@@ -14,16 +10,11 @@ export const passportUSANewDS11Schema = z.object({
   socialSecurityNumber: z.string().min(1, 'Social Security Number is required'),
   ds11Form: requiredFileSchema,
 
-  // ✅ Excel
   appointmentConfirmation: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA PASSPORT RENEWAL (DS-82)
-// =======================================================
-
 export const passportUSARenewalDS82Schema = z.object({
-  serviceType: z.literal(serviceTypes['usa-passport-renewal']),
+  serviceType: z.literal('renewal'),
 
   mostRecentPassport: requiredFileSchema,
   passportPhoto2x2: requiredFileSchema,
@@ -32,16 +23,11 @@ export const passportUSARenewalDS82Schema = z.object({
 
   nameChangeDocument: requiredFileSchema.optional(),
 
-  // ✅ Excel
   oldPassportSubmission: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA CHILD PASSPORT (UNDER 16)
-// =======================================================
-
 export const passportUSAChildUnder16Schema = z.object({
-  serviceType: z.literal(serviceTypes['child-passport']),
+  serviceType: z.literal('child-passport'),
 
   proofOfCitizenship: requiredFileSchema,
   parentsIdCopies: requiredFileSchema,
@@ -49,16 +35,11 @@ export const passportUSAChildUnder16Schema = z.object({
   passportPhotos: requiredFileSchema,
   ds11Form: requiredFileSchema,
 
-  // ✅ Excel
   parentsMarriageCertificate: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA LOST PASSPORT
-// =======================================================
-
 export const passportUSALostSchema = z.object({
-  serviceType: z.literal(serviceTypes['lost-passport']),
+  serviceType: z.literal('lost-passport'),
 
   ds64StatementOfLoss: requiredFileSchema,
   ds11Form: requiredFileSchema,
@@ -66,16 +47,11 @@ export const passportUSALostSchema = z.object({
   proofOfIdentity: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   policeReport: requiredFileSchema.optional(),
 });
-
-// =======================================================
-// USA STOLEN PASSPORT
-// =======================================================
 
 export const passportUSAStolenSchema = z.object({
-  serviceType: z.literal(serviceTypes['stolen-passport']),
+  serviceType: z.literal('stolen-passport'),
 
   ds64StatementOfLoss: requiredFileSchema,
   ds11Form: requiredFileSchema,
@@ -83,16 +59,11 @@ export const passportUSAStolenSchema = z.object({
   proofOfIdentity: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   policeReport: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA DAMAGED PASSPORT
-// =======================================================
-
 export const passportUSADamagedSchema = z.object({
-  serviceType: z.literal(serviceTypes['damaged-passport']),
+  serviceType: z.literal('damaged-passport'),
 
   ds64StatementOfLoss: requiredFileSchema,
   ds11Form: requiredFileSchema,
@@ -100,96 +71,137 @@ export const passportUSADamagedSchema = z.object({
   proofOfIdentity: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   damagedPassportSubmission: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA PASSPORT CARD
-// =======================================================
-
 export const passportUSACardSchema = z.object({
-  serviceType: z.literal(serviceTypes['usa-passport-card']),
+  serviceType: z.literal('usa-passport-card'),
 
   ds11OrDs82Form: requiredFileSchema,
   passportPhoto: requiredFileSchema,
   proofOfCitizenship: requiredFileSchema,
   proofOfIdentity: requiredFileSchema,
 
-  // ✅ Excel
   previousPassportCopy: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA NAME CHANGE / CORRECTION
-// =======================================================
-
 export const passportUSANameChangeCorrectionSchema = z.object({
-  serviceType: z.literal(serviceTypes['name-change']),
+  serviceType: z.literal('name-change'),
 
   ds5504Form: requiredFileSchema,
   currentPassport: requiredFileSchema,
   legalNameChangeDocument: requiredFileSchema,
 
-  // ✅ Excel
   affidavitForNameChange: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA SECOND VALID PASSPORT
-// =======================================================
-
-export const passportUSASecondValidSchema = z.object({
-  serviceType: z.literal(serviceTypes['second-valid-passport']),
+export const passportUSASecondSchema = z.object({
+  serviceType: z.literal('second-passport'),
 
   ds82OrDs11Form: requiredFileSchema,
   currentValidPassport: requiredFileSchema,
   letterOfJustification: requiredFileSchema,
   passportPhoto: requiredFileSchema,
 
-  // ✅ Excel
   employerTravelLetter: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA EXPEDITED PASSPORT
-// =======================================================
+export const passportUSASecondValidSchema = z.object({
+  serviceType: z.literal('second-valid-passport'),
+
+  ds82OrDs11Form: requiredFileSchema,
+  currentValidPassport: requiredFileSchema,
+  letterOfJustification: requiredFileSchema,
+  passportPhoto: requiredFileSchema,
+
+  employerTravelLetter: requiredFileSchema.optional(),
+});
 
 export const passportUSAExpeditedServiceSchema = z.object({
-  serviceType: z.literal(serviceTypes['expedited-passport-service']),
+  serviceType: z.literal('expedited-passport-service'),
 
   proofOfUrgentTravel: requiredFileSchema,
   expeditedFeePayment: requiredFileSchema,
   standardRequiredDocs: requiredFileSchema,
 
-  // ✅ Excel
   appointmentConfirmation: requiredFileSchema.optional(),
 });
 
-// =======================================================
-// USA EMERGENCY / SAME DAY PASSPORT
-// =======================================================
-
 export const passportUSAEmergencySameDaySchema = z.object({
-  serviceType: z.literal(serviceTypes['emergency-or-same-day-passport']),
+  serviceType: z.literal('emergency-or-same-day-passport'),
 
   proofOfEmergency: requiredFileSchema,
   proofOfTravel: requiredFileSchema,
   requiredStandardDocs: requiredFileSchema,
 
-  // ✅ Excel
   appointmentConfirmation: requiredFileSchema.optional(),
 });
-export const usaPassportSchemas = [
-  passportUSANewDS11Schema,
-  passportUSARenewalDS82Schema,
-  passportUSAChildUnder16Schema,
-  passportUSALostSchema,
-  passportUSAStolenSchema,
-  passportUSADamagedSchema,
-  passportUSACardSchema,
-  passportUSANameChangeCorrectionSchema,
-  passportUSASecondValidSchema,
-  passportUSAExpeditedServiceSchema,
-  passportUSAEmergencySameDaySchema,
-] as const;
+
+export const surrenderWithIndianPassportSchema = z.object({
+  serviceType: z.literal('surrender-with-indian-passport'),
+
+  photograph2x2: requiredFileSchema,
+  signature: requiredFileSchema,
+
+  declarationFromOffice: requiredFileSchema,
+
+  addressProof: requiredFileSchema,
+  indianPassportOriginal: requiredFileSchema,
+  indianPassportCopy: requiredFileSchema,
+
+  usPassportCopy: requiredFileSchema,
+  naturalizationCertificate: requiredFileSchema,
+
+  nameChangeDocument: requiredFileSchema.optional(),
+
+  spouseUsPassportCopy: requiredFileSchema.optional(),
+  spouseIndianPassportOrOciCopy: requiredFileSchema.optional(),
+  marriageCertificate: requiredFileSchema.optional(),
+
+  familyOciCardCopy: requiredFileSchema.optional(),
+  previousIndianVisaCopy: requiredFileSchema.optional(),
+});
+
+export const surrenderWithoutIndianPassportSchema = z.object({
+  serviceType: z.literal('surrender-without-indian-passport'),
+
+  photograph2x2: requiredFileSchema,
+  signature: requiredFileSchema,
+
+  declarationFromOffice: requiredFileSchema,
+
+  addressProof: requiredFileSchema,
+
+  usPassportCopy: requiredFileSchema,
+  naturalizationCertificate: requiredFileSchema,
+
+  proofOfIndianOrigin: requiredFileSchema,
+  policeReport: requiredFileSchema,
+
+  nameChangeDocument: requiredFileSchema.optional(),
+});
+
+export const surrenderMinorPassportSchema = z.object({
+  serviceType: z.literal('surrender-minor-passport'),
+
+  indianPassportOriginal: requiredFileSchema,
+  indianPassportCopy: requiredFileSchema,
+
+  usPassportCopy: requiredFileSchema,
+
+  parentsNaturalizationCertificate: requiredFileSchema.optional(),
+  parentsPassportCopies: requiredFileSchema,
+
+  familyOciCardCopy: requiredFileSchema.optional(),
+
+  parentsAddressProof: requiredFileSchema,
+
+  previousIndianVisaCopy: requiredFileSchema.optional(),
+
+  photographs2x2: requiredFileSchema,
+
+  nameChangeDocument: requiredFileSchema.optional(),
+
+  parentalAuthorizationForm: requiredFileSchema,
+  swornAffidavitByParents: requiredFileSchema,
+});

@@ -33,7 +33,7 @@ import {
 } from '@/lib/formSchemaFunctions';
 import { OtpVerificationDialog } from '@/components/shared/OtpVerificationDialog';
 import { resendOtpToUser, verifyUser } from '@/services/usersService';
-import { requiredFileSchema } from '../applicationForm/schemas';
+import { requiredFileSchema } from '../applicationForm/schemas/common';
 
 // ---------------- Schema aligned with backend ---------------- //
 const formSchema = z.object({

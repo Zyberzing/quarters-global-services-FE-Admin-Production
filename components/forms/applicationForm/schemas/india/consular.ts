@@ -2,20 +2,6 @@ import { z } from 'zod';
 import { requiredFileSchema } from '../common';
 
 // =======================================
-// SURRENDER OF INDIAN PASSPORT
-// =======================================
-
-export const surrenderIndianPassportSchema = z.object({
-  serviceType: z.literal('surrender-indian-passport'),
-
-  surrenderApplicationForm: requiredFileSchema,
-  indianPassportOriginal: requiredFileSchema,
-  foreignPassportCopy: requiredFileSchema,
-  naturalizationCertificate: requiredFileSchema,
-  photograph: requiredFileSchema,
-});
-
-// =======================================
 // RENUNCIATION OF INDIAN CITIZENSHIP
 // =======================================
 
@@ -54,9 +40,3 @@ export const globalEntryProgramSchema = z.object({
   visaCopy: requiredFileSchema.optional(),
   addressProof: requiredFileSchema,
 });
-export const indiaConsularSchemas = [
-  policeClearanceCertificateSchema,
-  surrenderIndianPassportSchema,
-  renunciationIndianCitizenshipSchema,
-  globalEntryProgramSchema,
-] as const;

@@ -18,13 +18,7 @@ import * as indiaConsular from './india/consular';
 import * as indiaIcp from './india/icp';
 // Other countries
 import * as otherVisa from './other/visa';
-
-// ----------------------------------------
-// Collect only ZodObject schemas
-// ----------------------------------------
-function extractSchemas(module: Record<string, unknown>) {
-  return Object.values(module).filter((v): v is z.ZodObject<any> => v instanceof z.ZodObject);
-}
+import { extractSchemas } from '.';
 
 // ----------------------------------------
 // Build registry keyed by serviceType
@@ -42,8 +36,22 @@ export const schemaRegistry = new Map<string, z.ZodObject<any>>();
   ...extractSchemas(indiaIcp),
   ...extractSchemas(otherVisa),
 ].forEach((schema) => {
-  const serviceType = (schema.shape as any)?.serviceType?._def?.value;
+  const serviceType = getServiceType(schema);
+
   if (serviceType) {
     schemaRegistry.set(serviceType, schema);
   }
 });
+
+function getServiceType(schema: z.ZodObject<any>): string | undefined {
+  const field = schema.shape?.serviceType;
+  if (!field) return undefined;
+
+  const def = (field as any)._def;
+
+  return (
+    def.value ??
+    (Array.isArray(def.values) ? def.values[0] : undefined) ??
+    (!Array.isArray(def.values) ? Object.values(def.values ?? {})[0] : undefined)
+  );
+}

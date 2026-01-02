@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { requiredFileSchema, serviceTypes } from '../common';
+import { requiredFileSchema } from '../common';
 
 // =======================================================
 // INDIA TOURIST VISA
 // =======================================================
 
 export const visaIndiaTouristSchema = z.object({
-  serviceType: z.literal(serviceTypes['tourist-visa']),
+  serviceType: z.literal('tourist-visa'),
 
   validPassport: requiredFileSchema,
   visaApplicationForm: requiredFileSchema,
@@ -24,7 +24,7 @@ export const visaIndiaTouristSchema = z.object({
 // =======================================================
 
 export const visaIndiaBusinessSchema = z.object({
-  serviceType: z.literal(serviceTypes['business-visa']),
+  serviceType: z.literal('business-visa'),
 
   validPassport: requiredFileSchema,
   visaApplicationForm: requiredFileSchema,
@@ -42,7 +42,7 @@ export const visaIndiaBusinessSchema = z.object({
 // =======================================================
 
 export const visaIndiaStudentSchema = z.object({
-  serviceType: z.literal(serviceTypes['student-visa']),
+  serviceType: z.literal('student-visa'),
 
   validPassport: requiredFileSchema,
   visaApplicationForm: requiredFileSchema,
@@ -60,7 +60,7 @@ export const visaIndiaStudentSchema = z.object({
 // =======================================================
 
 export const visaIndiaMedicalSchema = z.object({
-  serviceType: z.literal(serviceTypes['medical-visa']),
+  serviceType: z.literal('medical-visa'),
 
   validPassport: requiredFileSchema,
   visaApplicationForm: requiredFileSchema,
@@ -78,7 +78,7 @@ export const visaIndiaMedicalSchema = z.object({
 // =======================================================
 
 export const visaIndiaConferenceSchema = z.object({
-  serviceType: z.literal(serviceTypes['conference-visa']),
+  serviceType: z.literal('conference-visa'),
 
   validPassport: requiredFileSchema,
   visaApplicationForm: requiredFileSchema,
@@ -96,7 +96,7 @@ export const visaIndiaConferenceSchema = z.object({
 // =======================================================
 
 export const visaIndiaEmploymentSchema = z.object({
-  serviceType: z.literal(serviceTypes['employment-visa']),
+  serviceType: z.literal('employment-visa'),
 
   validPassport: requiredFileSchema,
   visaApplicationForm: requiredFileSchema,
@@ -108,11 +108,3 @@ export const visaIndiaEmploymentSchema = z.object({
   // ✅ Excel
   employmentContract: requiredFileSchema.optional(),
 });
-export const indiaVisaSchemas = [
-  visaIndiaTouristSchema,
-  visaIndiaBusinessSchema,
-  visaIndiaStudentSchema,
-  visaIndiaMedicalSchema,
-  visaIndiaConferenceSchema,
-  visaIndiaEmploymentSchema,
-] as const;

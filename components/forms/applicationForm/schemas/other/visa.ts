@@ -1,10 +1,6 @@
 import { z } from 'zod';
 import { requiredFileSchema } from '../common';
 
-// =======================================================
-// CANADA VISITOR VISA
-// =======================================================
-
 export const visaCanadaVisitorSchema = z.object({
   serviceType: z.literal('canada-visitor-visa'),
 
@@ -14,10 +10,6 @@ export const visaCanadaVisitorSchema = z.object({
   proofOfFunds: requiredFileSchema,
   travelItinerary: requiredFileSchema,
 });
-
-// =======================================================
-// CANADA STUDENT VISA
-// =======================================================
 
 export const visaCanadaStudentSchema = z.object({
   serviceType: z.literal('canada-student-visa'),
@@ -29,10 +21,6 @@ export const visaCanadaStudentSchema = z.object({
   proofOfFunds: requiredFileSchema,
 });
 
-// =======================================================
-// CANADA WORK PERMIT
-// =======================================================
-
 export const visaCanadaWorkPermitSchema = z.object({
   serviceType: z.literal('canada-work-permit'),
 
@@ -42,10 +30,6 @@ export const visaCanadaWorkPermitSchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-// =======================================================
-// CANADA PERMANENT RESIDENCY (PR)
-// =======================================================
-
 export const visaCanadaPRSchema = z.object({
   serviceType: z.literal('canada-permanent-residency'),
 
@@ -54,10 +38,6 @@ export const visaCanadaPRSchema = z.object({
   passportPhotos: requiredFileSchema,
   proofOfFunds: requiredFileSchema,
 });
-
-// =======================================================
-// UK TOURIST VISA
-// =======================================================
 
 export const visaUKTouristSchema = z.object({
   serviceType: z.literal('uk-tourist-visa'),
@@ -69,10 +49,6 @@ export const visaUKTouristSchema = z.object({
   proofOfFunds: requiredFileSchema,
 });
 
-// =======================================================
-// UK STUDENT VISA
-// =======================================================
-
 export const visaUKStudentSchema = z.object({
   serviceType: z.literal('uk-student-visa'),
 
@@ -83,10 +59,6 @@ export const visaUKStudentSchema = z.object({
   proofOfFunds: requiredFileSchema,
 });
 
-// =======================================================
-// UK WORK VISA
-// =======================================================
-
 export const visaUKWorkSchema = z.object({
   serviceType: z.literal('uk-work-visa'),
 
@@ -96,10 +68,6 @@ export const visaUKWorkSchema = z.object({
   passportPhotos: requiredFileSchema,
 });
 
-// =======================================================
-// UK DEPENDENT VISA
-// =======================================================
-
 export const visaUKDependentSchema = z.object({
   serviceType: z.literal('uk-dependent-visa'),
 
@@ -108,10 +76,6 @@ export const visaUKDependentSchema = z.object({
   relationshipProof: requiredFileSchema,
   passportPhotos: requiredFileSchema,
 });
-
-// =======================================================
-// SCHENGEN TOURIST VISA
-// =======================================================
 
 export const visaSchengenTouristSchema = z.object({
   serviceType: z.literal('schengen-tourist-visa'),
@@ -123,10 +87,6 @@ export const visaSchengenTouristSchema = z.object({
   travelInsurance: requiredFileSchema,
 });
 
-// =======================================================
-// SCHENGEN BUSINESS VISA
-// =======================================================
-
 export const visaSchengenBusinessSchema = z.object({
   serviceType: z.literal('schengen-business-visa'),
 
@@ -137,10 +97,6 @@ export const visaSchengenBusinessSchema = z.object({
   travelInsurance: requiredFileSchema,
 });
 
-// =======================================================
-// SCHENGEN STUDENT VISA
-// =======================================================
-
 export const visaSchengenStudentSchema = z.object({
   serviceType: z.literal('schengen-student-visa'),
 
@@ -150,17 +106,3 @@ export const visaSchengenStudentSchema = z.object({
   passportPhotos: requiredFileSchema,
   travelInsurance: requiredFileSchema,
 });
-
-export const otherVisaSchemas = [
-  visaCanadaVisitorSchema,
-  visaCanadaStudentSchema,
-  visaCanadaWorkPermitSchema,
-  visaCanadaPRSchema,
-  visaUKTouristSchema,
-  visaUKStudentSchema,
-  visaUKWorkSchema,
-  visaUKDependentSchema,
-  visaSchengenTouristSchema,
-  visaSchengenBusinessSchema,
-  visaSchengenStudentSchema,
-] as const;
