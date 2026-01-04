@@ -469,8 +469,6 @@ const ApplicationForm = ({
       countryCode: values.phone?.split(' ')?.[0] || '+1',
       phone: values.phone?.replace(/^\+\d+\s/, '') || '',
       description: values.notes || '',
-      paymentMode: 'offline',
-      // isSubmittedFromApplication: 1,
       address: {
         addressLine1: values.address,
         addressLine2: '',
@@ -487,7 +485,7 @@ const ApplicationForm = ({
         zipCode: values.pincode,
         country: values.country,
       },
-      status: 'Submitted',
+      // status: 'Submitted', // Don't change status on edit from submit
       fromCountryId: values.fromCountryId,
       toCountryId: values.toCountryId,
       platformServices: [
@@ -633,7 +631,8 @@ const ApplicationForm = ({
       },
     };
     await editApplication(backendPayload);
-    toast.success('Application submitted successfully!');
+    toast.success('Application edited successfully!');
+    router.push('/admin/applications?revalidate=' + Date.now());
   });
 
   // Check is  user data exist when entered email
