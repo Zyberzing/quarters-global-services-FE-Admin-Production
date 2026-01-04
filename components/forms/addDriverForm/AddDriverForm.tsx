@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -28,6 +28,7 @@ import { toast } from 'sonner';
 import { UserTypeENUM } from '@/lib/types';
 import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import { format } from 'date-fns';
+import { Autocomplete } from '@react-google-maps/api';
 
 const formSchema = z.object({
   fullName: z.string().min(1, 'Full Name is required'),
@@ -55,7 +56,7 @@ interface DriverFormProps {
 const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  console.log(driverData, 'driverData');
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -279,12 +280,51 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
               <FormItem>
                 <FormLabel>Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="" disabled={isView} {...field} />
+                  <Autocomplete
+                    onLoad={(autocomplete) => {
+                      autocompleteRef.current = autocomplete;
+                    }}
+                    onPlaceChanged={() => {
+                      const place = autocompleteRef.current?.getPlace();
+                      if (!place?.address_components) return;
+
+                      let city = '';
+                      let state = '';
+                      let pincode = '';
+
+                      place.address_components.forEach((component) => {
+                        const types = component.types;
+
+                        if (types.includes('locality')) {
+                          city = component.long_name;
+                        }
+
+                        if (types.includes('administrative_area_level_1')) {
+                          state = component.long_name;
+                        }
+
+                        if (types.includes('postal_code')) {
+                          pincode = component.long_name;
+                        }
+                      });
+
+                      form.setValue('address', place.formatted_address || '');
+                      form.setValue('city', city);
+                      form.setValue('state', state);
+                      form.setValue('pinCode', pincode);
+                    }}
+                    options={{
+                      componentRestrictions: { country: 'in' }, // optional
+                    }}
+                  >
+                    <Input {...field} placeholder="" disabled={isView} />
+                  </Autocomplete>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="city"
@@ -311,27 +351,16 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="state"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>State</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isView}>
-                  <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Maharashtra">Maharashtra</SelectItem>
-                    <SelectItem value="Karnataka">Karnataka</SelectItem>
-                    <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
-                    <SelectItem value="Gujarat">Gujarat</SelectItem>
-                    <SelectItem value="Rajasthan">Rajasthan</SelectItem>
-                  </SelectContent>
-                </Select>
-
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="" disabled={isView} {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
