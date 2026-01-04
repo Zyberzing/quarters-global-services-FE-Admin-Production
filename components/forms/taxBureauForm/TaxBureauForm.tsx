@@ -230,7 +230,9 @@ const TaxBureauForm = ({
                             isSelected
                               ? 'border-primary bg-primary text-primary-foreground shadow-md'
                               : 'border-muted hover:border-red-300'
-                          }`}
+                          }
+                          ${isEdit && 'pointer-events-none opacity-70'}
+                          `}
                         >
                           <CardHeader>
                             <CardTitle className="capitalize">{pkg.replace(/_/g, ' ')}</CardTitle>
@@ -261,7 +263,7 @@ const TaxBureauForm = ({
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={isEdit} readOnly={isView} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -275,7 +277,7 @@ const TaxBureauForm = ({
                 <FormItem>
                   <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={isEdit} readOnly={isView} />
                   </FormControl>{' '}
                   <FormMessage />
                 </FormItem>
@@ -293,6 +295,8 @@ const TaxBureauForm = ({
                       type="date"
                       {...field}
                       value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
+                      disabled={isEdit}
+                      readOnly={isView}
                     />
                   </FormControl>{' '}
                   <FormMessage />
@@ -313,6 +317,7 @@ const TaxBureauForm = ({
                         field.onChange(val ? `+${val}` : '');
                         form.setValue('countryCode', `+${df.dialCode || ''}`);
                       }}
+                      disabled={isEdit}
                     />
                   </FormControl>{' '}
                   <FormMessage />
@@ -327,7 +332,7 @@ const TaxBureauForm = ({
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
                   <FormControl>
-                    <Input type="email" {...field} />
+                    <Input type="email" {...field} disabled={isEdit} readOnly={isView} />
                   </FormControl>{' '}
                   <FormMessage />
                 </FormItem>
@@ -714,7 +719,7 @@ const TaxBureauForm = ({
 
         {/* 10. Application Status */}
         <section className="p-6 border rounded-lg space-y-4">
-          <h2 className="font-semibold text-lg">7. Application Status</h2>
+          <h2 className="font-semibold text-lg">10. Application Status</h2>
           <FormField
             name="status"
             control={form.control}
