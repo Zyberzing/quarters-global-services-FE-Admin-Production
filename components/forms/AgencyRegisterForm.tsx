@@ -18,9 +18,10 @@ import { passwordSchema } from '@/lib/formSchemaFunctions';
 
 const formSchema = z
   .object({
-    username: z.string().min(2, {
-      message: 'Username must be at least 2 characters.',
-    }),
+    username: z
+      .string()
+      .email('Invalid email')
+      .regex(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/, 'Email must be lowercase and valid'),
     password: passwordSchema(),
     confirmPassword: passwordSchema(),
   })
