@@ -17,6 +17,8 @@ import * as indiaOci from './india/oci';
 import * as indiaConsular from './india/consular';
 // ICP
 import * as indiaIcp from './india/icp';
+// China E-Visa
+import * as chinaEVsa from './china/evisa';
 // Other countries
 import * as otherVisa from './other/visa';
 import { commonFieldSchema, emailSchema } from '@/lib/formSchemaFunctions';
@@ -40,10 +42,9 @@ export const serviceDocumentsSchemas = z.discriminatedUnion('serviceType', [
   ...extractSchemas(indiaOci),
   ...extractSchemas(indiaConsular),
   ...extractSchemas(indiaIcp),
+  ...extractSchemas(chinaEVsa),
   ...extractSchemas(otherVisa),
 ] as const);
-
-console.log(serviceDocumentsSchemas, 'serviceDocumentsSchemas');
 
 // Base schema for application form
 const baseSchema = z.object({
