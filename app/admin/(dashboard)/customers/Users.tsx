@@ -52,11 +52,6 @@ const UsersPage = ({ customersData }: UsersProps) => {
     {
       header: 'Phone Number',
       accessor: 'phone',
-      render: (row: CustomerDataType) => (
-        <span>
-          {row.countryCode} {row.phone}
-        </span>
-      ),
     },
     {
       header: 'Email',

@@ -98,12 +98,12 @@ const USPassportForm = ({ isView = false }: USPassportFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Sex <span className="text-red-500">*</span>
+                Gender <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Select value={field.value} onValueChange={field.onChange} disabled={isView}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Sex" />
+                    <SelectValue placeholder="Select Gender" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="M">Male</SelectItem>
@@ -508,8 +508,9 @@ const USPassportForm = ({ isView = false }: USPassportFormProps) => {
               <FormControl>
                 <PhoneInput2
                   value={field.value}
-                  onChange={(val) => {
+                  onChange={(val, df) => {
                     field.onChange(val ? `+${val}` : '');
+                    form.setValue('countryCode', `+${df.dialCode || ''}`);
                   }}
                   disabled={isView}
                 />
