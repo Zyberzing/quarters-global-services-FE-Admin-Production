@@ -64,7 +64,11 @@ const userColumns = [
   {
     header: 'Status',
     accessor: 'status',
-    render: (row: any) => <Badge variant={'outline'}>{row.status}</Badge>,
+    render: (row: any) => (
+      <Badge variant={row.status.toLowerCase() === 'active' ? 'default' : 'outline'}>
+        {row.status}
+      </Badge>
+    ),
   },
   {
     header: 'Action',
