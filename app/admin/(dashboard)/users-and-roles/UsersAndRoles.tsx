@@ -98,33 +98,35 @@ const roleColumns = [
     header: 'Permissions',
     accessor: 'permissions',
     className: 'break-normal',
-    render: (row: any) => (
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm" className="gap-1">
-            <Eye className="h-4 w-4" />
-            View
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-64">
-          <div className="space-y-2">
-            <p className="font-semibold">Permissions</p>
-            <div className="flex flex-wrap gap-1">
-              {row.permissions?.split(',').map((perm: string, idx: number) => (
-                <Badge key={idx} variant="secondary">
-                  {formatPermission(perm.trim())}
-                </Badge>
-              ))}
+    render: (row: any) => {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-1">
+              <Eye className="h-4 w-4" />
+              View
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64">
+            <div className="space-y-2">
+              <p className="font-semibold">Permissions</p>
+              <div className="flex flex-wrap gap-1">
+                {row.permissions.map((perm: string, idx: number) => (
+                  <Badge key={idx} variant="secondary">
+                    {formatPermission(perm.trim())}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
-        </PopoverContent>
-      </Popover>
-    ),
+          </PopoverContent>
+        </Popover>
+      );
+    },
   },
-  {
-    header: 'Members',
-    accessor: 'members',
-  },
+  // {
+  //   header: 'Members',
+  //   accessor: 'members',
+  // },
   {
     header: 'Action',
     accessor: 'action',
@@ -164,13 +166,15 @@ const UsersAndRolesPage = ({
     status: user.status,
   }));
 
+  console.log(rolesList, 'rolesList');
   const preparedRoles = rolesList.map((role) => ({
     id: role._id,
     role: role.name,
     description: role.description,
-    permissions: role.permissions.join(', '),
+    permissions: role.permissions,
     members: 0,
   }));
+  console.log(preparedRoles, 'preparedRoles');
 
   return (
     <Tabs defaultValue={activeTab}>

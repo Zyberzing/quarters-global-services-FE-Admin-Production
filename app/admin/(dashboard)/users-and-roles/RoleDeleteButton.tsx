@@ -22,7 +22,7 @@ export function RoleDeleteButton({ id }: { id: string }) {
 
   return (
     <DeleteConfirm onConfirm={handleDelete}>
-      <Button variant="outline" disabled={loading}>
+      <Button variant="ghost" size="icon" disabled={loading}>
         <Icon name={loading ? 'loading' : 'delete'} />
       </Button>
     </DeleteConfirm>
