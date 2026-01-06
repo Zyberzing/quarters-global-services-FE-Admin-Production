@@ -29,7 +29,11 @@ import { UserTypeENUM } from '@/lib/types';
 import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import { format } from 'date-fns';
 import { Autocomplete } from '@react-google-maps/api';
-import { commonFieldSchema, phoneNumberSchema } from '@/lib/formSchemaFunctions';
+import {
+  commonFieldSchema,
+  documentFileSchema,
+  phoneNumberSchema,
+} from '@/lib/formSchemaFunctions';
 
 const formSchema = z.object({
   fullName: commonFieldSchema(),
@@ -51,8 +55,8 @@ const formSchema = z.object({
     .max(20, 'License Number must be at most 20 characters'),
   licenseExpiryDate: commonFieldSchema(),
   status: z.enum(['Available', 'Not Available']),
-  photo: z.any().optional(),
-  licence: z.any().optional(), // Note: API uses 'licence' not 'license'
+  photo: documentFileSchema({}),
+  licence: documentFileSchema({}), // Note: API uses 'licence' not 'license'
 });
 
 interface DriverFormProps {

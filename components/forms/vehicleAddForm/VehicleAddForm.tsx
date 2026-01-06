@@ -26,21 +26,22 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { uploadFile } from '@/lib/uploadUtils';
 import { UserTypeENUM } from '@/lib/types';
+import { commonFieldSchema, documentFileSchema } from '@/lib/formSchemaFunctions';
 
 const formSchema = z.object({
-  vehicleName: z.string().min(1, 'Vehicle Name is required'),
-  vehicleType: z.string().min(1, 'Vehicle Type is required'),
-  licensePlateNumber: z.string().min(1, 'License Plate Number is required'),
-  seatingCapacity: z.string().min(1, 'Seating capacity is required'),
+  vehicleName: commonFieldSchema(),
+  vehicleType: commonFieldSchema(),
+  licensePlateNumber: commonFieldSchema(),
+  seatingCapacity: commonFieldSchema(),
   ACorNONAC: z.enum(['AC', 'NON-AC']),
-  color: z.string().min(1, 'Color is required'),
-  fuelType: z.string().min(1, 'Fuel Type is required'),
-  transmissionType: z.string().min(1, 'Transmission Type is required'),
-  insuranceExpiryDate: z.string().min(1, 'Insurance Expiry Date is required'),
+  color: commonFieldSchema(),
+  fuelType: commonFieldSchema(),
+  transmissionType: commonFieldSchema(),
+  insuranceExpiryDate: commonFieldSchema(),
   status: z.enum(['Available', 'Not-available']),
-  image: z.any().optional(),
-  documentOne: z.any().optional(),
-  documentTwo: z.any().optional(),
+  image: documentFileSchema({}),
+  documentOne: documentFileSchema({}),
+  documentTwo: documentFileSchema({}),
 });
 
 interface VehicleFormProps {
@@ -69,9 +70,9 @@ const VehicleAddForm = ({ isView, isEdit, vehicleData, role }: VehicleFormProps)
         ? vehicleData.insuranceExpiryDate.split('T')[0]
         : '',
       status: vehicleData?.status === 'active' ? 'Available' : 'Not-available',
-      image: vehicleData?.image || null,
-      documentOne: vehicleData?.documentOne || null,
-      documentTwo: vehicleData?.documentTwo || null,
+      image: vehicleData?.image || undefined,
+      documentOne: vehicleData?.documentOne || undefined,
+      documentTwo: vehicleData?.documentTwo || undefined,
     },
   });
 
@@ -80,9 +81,9 @@ const VehicleAddForm = ({ isView, isEdit, vehicleData, role }: VehicleFormProps)
     try {
       setIsLoading(true);
 
-      let imageData = vehicleData?.image || null;
-      let documentOneData = vehicleData?.documentOne || null;
-      let documentTwoData = vehicleData?.documentTwo || null;
+      let imageData = vehicleData?.image || undefined;
+      let documentOneData = vehicleData?.documentOne || undefined;
+      let documentTwoData = vehicleData?.documentTwo || undefined;
 
       // Step 1: Upload files if they are new File objects and create document objects
       if (values.image instanceof File) {

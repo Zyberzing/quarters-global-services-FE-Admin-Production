@@ -53,20 +53,10 @@ const formSchema = z.object({
     .nonempty({ message: 'Preferred Embassy Location is required' }),
 
   // Step 2: Document Upload
-  governmentBusinessRegistrationCertificate: documentFileSchema(8 * 1024 * 1024, [
-    '.jpeg',
-    '.jpg',
-    '.png',
-    '.pdf',
-  ]),
-  identityProofOfAuthorizedRepresentative: documentFileSchema(8 * 1024 * 1024, [
-    '.jpeg',
-    '.jpg',
-    '.png',
-    '.pdf',
-  ]),
-  authorizationLetter: documentFileSchema(8 * 1024 * 1024, ['.jpeg', '.jpg', '.png', '.pdf']),
-  bankStatement: documentFileSchema(8 * 1024 * 1024, ['.jpeg', '.jpg', '.png', '.pdf']),
+  governmentBusinessRegistrationCertificate: documentFileSchema({}),
+  identityProofOfAuthorizedRepresentative: documentFileSchema({}),
+  authorizationLetter: documentFileSchema({}),
+  bankStatement: documentFileSchema({}),
 });
 
 export type AgencyDetailFormSchemaType = z.infer<typeof formSchema>;

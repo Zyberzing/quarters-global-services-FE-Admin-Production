@@ -137,8 +137,19 @@ export const fileValidation = z.object({
 });
 
 // Common file schema for all document fields
-export const documentFileSchema = (MAX_FILE_SIZE: number, ALLOWED_EXTENSIONS: string[]) => {
-  const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+export const documentFileSchema = ({
+  MAX_FILE_SIZE = 8 * 1024 * 1024,
+  ALLOWED_EXTENSIONS,
+}: {
+  MAX_FILE_SIZE?: number;
+  ALLOWED_EXTENSIONS?: string[];
+}) => {
+  const ALLOWED_MIME_TYPES = ALLOWED_EXTENSIONS ?? [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'application/pdf',
+  ];
   const maxSizeMB = MAX_FILE_SIZE / (1024 * 1024);
 
   return z
@@ -165,7 +176,7 @@ export const documentFileSchema = (MAX_FILE_SIZE: number, ALLOWED_EXTENSIONS: st
         return ALLOWED_MIME_TYPES.includes(val.type);
       },
       {
-        message: `File must be one of the following formats: ${ALLOWED_EXTENSIONS.join(', ')}`,
+        message: `File must be one of the following formats: ${ALLOWED_MIME_TYPES.join(', ')}`,
       },
     );
 };
