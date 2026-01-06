@@ -162,14 +162,7 @@ const ApplicationsPage = ({
     phone: data.phone,
     email: data.email,
     totalAmount: data?.totalAmount,
-    date: new Date(data.createdAt).toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    }),
+    date: data.createdAt,
     status: data.status,
   }));
   return (

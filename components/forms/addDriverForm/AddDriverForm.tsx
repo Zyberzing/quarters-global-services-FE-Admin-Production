@@ -29,21 +29,27 @@ import { UserTypeENUM } from '@/lib/types';
 import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import { format } from 'date-fns';
 import { Autocomplete } from '@react-google-maps/api';
+import { commonFieldSchema, phoneNumberSchema } from '@/lib/formSchemaFunctions';
 
 const formSchema = z.object({
-  fullName: z.string().min(1, 'Full Name is required'),
+  fullName: commonFieldSchema(),
   email: z
     .string()
     .email('Invalid email')
     .regex(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/, 'Email must be lowercase and valid'),
-  countryCode: z.string().min(1, 'Country code is required'),
-  phone: z.string().min(1, 'Phone number is required'),
-  address: z.string().min(1, 'Address is required'),
-  city: z.string().min(1, 'City is required'),
-  state: z.string().min(1, 'State is required'),
-  pinCode: z.string().min(1, 'Pin code is required'),
-  licenseNumber: z.string().min(1, 'License Number is required'),
-  licenseExpiryDate: z.string().min(1, 'License Expiry Date is required'),
+  countryCode: commonFieldSchema(),
+  phone: phoneNumberSchema(),
+  address: commonFieldSchema(),
+  city: commonFieldSchema(),
+  state: commonFieldSchema(),
+  country: commonFieldSchema(),
+  pinCode: commonFieldSchema()
+    .min(3, 'Pin Code must be at least 3 characters')
+    .max(10, 'Pin Code must be at most 10 characters'),
+  licenseNumber: commonFieldSchema()
+    .min(5, 'License Number must be at least 5 characters')
+    .max(20, 'License Number must be at most 20 characters'),
+  licenseExpiryDate: commonFieldSchema(),
   status: z.enum(['Available', 'Not Available']),
   photo: z.any().optional(),
   licence: z.any().optional(), // Note: API uses 'licence' not 'license'
@@ -71,6 +77,7 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
       address: driverData?.address || '',
       city: driverData?.city || '',
       state: driverData?.state || '',
+      country: driverData?.country || '',
       pinCode: driverData?.pinCode || '',
       licenseNumber: driverData?.licenseNumber || '',
       licenseExpiryDate: driverData?.licenseExpiryDate
@@ -126,6 +133,7 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
         address: values.address,
         city: values.city,
         state: values.state,
+        country: values.country,
         pinCode: values.pinCode,
         licenseNumber: values.licenseNumber,
         licenseExpiryDate: values.licenseExpiryDate,
@@ -294,6 +302,7 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
                       let addressLine = '';
                       let city = '';
                       let state = '';
+                      let country = '';
                       let pincode = '';
 
                       let streetNumber = '';
@@ -331,6 +340,10 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
                           state = component.long_name;
                         }
 
+                        if (types.includes('country')) {
+                          country = component.long_name;
+                        }
+
                         if (types.includes('postal_code')) {
                           pincode = component.long_name;
                         }
@@ -344,6 +357,7 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
                       form.setValue('address', addressLine);
                       form.setValue('city', city);
                       form.setValue('state', state);
+                      form.setValue('country', country);
                       form.setValue('pinCode', pincode);
                     }}
                     options={{
@@ -391,6 +405,20 @@ const AddDriverForm = ({ isView, isEdit, driverData, role }: DriverFormProps) =>
             render={({ field }) => (
               <FormItem>
                 <FormLabel>State</FormLabel>
+                <FormControl>
+                  <Input placeholder="" disabled={isView} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>country</FormLabel>
                 <FormControl>
                   <Input placeholder="" disabled={isView} {...field} />
                 </FormControl>
