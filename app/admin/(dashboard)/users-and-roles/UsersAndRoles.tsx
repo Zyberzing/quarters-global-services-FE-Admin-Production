@@ -170,7 +170,6 @@ const UsersAndRolesPage = ({
     status: user.status,
   }));
 
-  console.log(rolesList, 'rolesList');
   const preparedRoles = rolesList.map((role) => ({
     id: role._id,
     role: role.name,
@@ -178,7 +177,6 @@ const UsersAndRolesPage = ({
     permissions: role.permissions,
     members: 0,
   }));
-  console.log(preparedRoles, 'preparedRoles');
 
   return (
     <Tabs defaultValue={activeTab}>
