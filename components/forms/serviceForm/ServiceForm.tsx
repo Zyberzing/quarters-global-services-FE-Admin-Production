@@ -74,7 +74,11 @@ const ServiceForm = ({
       try {
         setLoading(true);
         const categories = await getPlatformServiceCategories('other-services');
-        setServiceCategories(categories);
+        console.log('Fetched service categories:', categories);
+        const filteredCategories = categories.filter(
+          (category) => category.name !== 'Driver' && category.name !== 'Vehicle Booking',
+        );
+        setServiceCategories(filteredCategories);
 
         // Set the first category as default if available
         if (categories.length > 0 && !defaultData?.serviceFields?.serviceType) {

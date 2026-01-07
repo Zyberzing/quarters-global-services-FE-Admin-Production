@@ -20,10 +20,12 @@ import * as indiaIcp from './india/icp';
 // China E-Visa
 import * as chinaEVsa from './china/evisa';
 // Other countries
-import * as otherVisa from './other/visa';
 import { commonFieldSchema, emailSchema } from '@/lib/formSchemaFunctions';
 
 export function extractSchemas(module: Record<string, unknown>) {
+  if (!module || typeof module !== 'object') {
+    return [];
+  }
   return Object.values(module).filter((v): v is z.ZodObject<any> => {
     if (!(v instanceof z.ZodObject)) return false;
     const shape = v.shape as any;
@@ -43,7 +45,7 @@ export const serviceDocumentsSchemas = z.discriminatedUnion('serviceType', [
   ...extractSchemas(indiaConsular),
   ...extractSchemas(indiaIcp),
   ...extractSchemas(chinaEVsa),
-  ...extractSchemas(otherVisa),
+  // ...extractSchemas(otherVisa),
 ] as const);
 
 // Base schema for application form
