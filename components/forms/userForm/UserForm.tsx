@@ -76,6 +76,7 @@ const UserForm = ({ isView = false, userData }: { isView?: boolean; userData?: U
     if (userData) {
       await editUser(userData._id, prePareData);
       toast.success('User updated successfully');
+      router.push('/admin/users-and-roles?activeTab=users');
     } else {
       const createdUser = await createUser(prePareData);
       const userId = createdUser?.data?._id;

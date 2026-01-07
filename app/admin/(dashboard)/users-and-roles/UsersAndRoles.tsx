@@ -101,7 +101,6 @@ const roleColumns = [
   {
     header: 'Permissions',
     accessor: 'permissions',
-    className: 'break-normal',
     render: (row: any) => {
       return (
         <Popover>

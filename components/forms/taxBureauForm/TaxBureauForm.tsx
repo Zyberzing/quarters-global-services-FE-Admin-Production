@@ -38,7 +38,7 @@ import Link from 'next/link';
 
 const enrollmentFormSchema = z.object({
   firstName: commonFieldSchema(),
-  lastName: commonFieldSchema(),
+  lastName: commonFieldSchema().optional().or(z.literal('')),
   dateOfBirth: commonFieldSchema(),
   countryCode: commonFieldSchema(),
   phone: commonFieldSchema(),
@@ -61,7 +61,10 @@ const enrollmentFormSchema = z.object({
   efinNumber: commonFieldSchema(),
   efinStatus: z.enum(['Approved', 'Pending', 'Need Assistance with Application']),
 
-  enrolledServices: z.array(z.string()).default([]),
+  enrolledServices: z
+    .array(commonFieldSchema())
+    .min(1, { message: 'This field is required' })
+    .default([]),
 
   experienceLevel: commonFieldSchema(),
   expectedVolume: commonFieldSchema(),
@@ -170,8 +173,10 @@ const TaxBureauForm = ({
   useEffect(() => {
     if (defaultData) {
       form.reset({
-        firstName: defaultData?.fullName?.split(' ')?.[0] ?? '',
-        lastName: defaultData?.fullName?.split(' ')?.pop() ?? '',
+        // firstName: defaultData?.fullName?.split(' ')?.[0] ?? '',
+        // lastName: defaultData?.fullName?.split(' ')?.pop() ?? '',
+        firstName: defaultData?.fullName ?? '',
+        lastName: '',
         dateOfBirth: defaultData.dateOfBirth ?? '',
         countryCode: defaultData.countryCode ?? '',
         phone: defaultData.phoneNumber ?? '',
@@ -267,7 +272,7 @@ const TaxBureauForm = ({
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={isEdit} readOnly={isView} />
                   </FormControl>
@@ -276,7 +281,7 @@ const TaxBureauForm = ({
               )}
             />
 
-            <FormField
+            {/* <FormField
               name="lastName"
               control={form.control}
               render={({ field }) => (
@@ -288,7 +293,7 @@ const TaxBureauForm = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               name="dateOfBirth"
