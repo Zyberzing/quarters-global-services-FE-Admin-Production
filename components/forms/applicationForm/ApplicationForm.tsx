@@ -674,7 +674,7 @@ const ApplicationForm = ({
         toCountryId: applicationData?.toCountryId || '',
         platformServiceId: applicationData?.platformServiceId || '',
         platformServiceCategoryId: applicationData?.platformServiceCategoryId || '',
-        platformServiceSubCategoryId: applicationData?.platformServiceSubCategoryId || null,
+        platformServiceSubCategoryId: applicationData?.platformServiceSubCategoryId || '',
         platformServiceCategoryPackageId: applicationData?.platformServiceCategoryPackageId || '',
         platformServiceCategoryPackageAddonsId:
           applicationData?.platformServiceCategoryPackageAddonsId || [],

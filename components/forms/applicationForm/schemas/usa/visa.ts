@@ -48,13 +48,13 @@ export const visaUSExchangeVisitorSchema = z.object({
 export const visaUSBusinessSchema = z.object({
   serviceType: z.literal('h1b-work-visa'),
 
-  validPassport: requiredFileSchema,
-  ds160Confirmation: requiredFileSchema,
-  i797ApprovalNotice: requiredFileSchema,
-  lcaDocument: requiredFileSchema,
-  employmentLetter: requiredFileSchema,
-  degreesCertificates: requiredFileSchema,
-  passportPhoto: requiredFileSchema,
+  validPassport: requiredFileSchema.optional(),
+  ds160Confirmation: requiredFileSchema.optional(),
+  i797ApprovalNotice: requiredFileSchema.optional(),
+  lcaDocument: requiredFileSchema.optional(),
+  employmentLetter: requiredFileSchema.optional(),
+  degreesCertificates: requiredFileSchema.optional(),
+  passportPhoto: requiredFileSchema.optional(),
 
   resumeCV: requiredFileSchema.optional(),
 });

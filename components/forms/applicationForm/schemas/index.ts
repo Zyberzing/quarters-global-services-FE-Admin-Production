@@ -56,7 +56,7 @@ const baseSchema = z.object({
   toCountryId: commonFieldSchema(),
   platformServiceId: commonFieldSchema(),
   platformServiceCategoryId: commonFieldSchema(),
-  platformServiceSubCategoryId: commonFieldSchema().optional().or(z.literal('')),
+  platformServiceSubCategoryId: z.string().optional(),
   platformServiceCategoryPackageId: commonFieldSchema(),
   platformServiceCategoryPackageAddonsId: z.array(commonFieldSchema()),
 
