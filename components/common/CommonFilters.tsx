@@ -113,14 +113,10 @@ export default function QueryFiltersPopover({
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    setLoading(true);
 
     timeoutRef.current = setTimeout(() => {
-      startTransition(() => {
-        const href = buildURL(searchParams, { [searchKey]: query || null }, isReplaceExistFilters);
-        router.replace(href);
-      });
-      setLoading(false);
+      const href = buildURL(searchParams, { [searchKey]: query || null }, isReplaceExistFilters);
+      router.replace(href);
       if (autoCloseOnChange) setOpen(false);
     }, debounceMs);
 
@@ -183,7 +179,7 @@ export default function QueryFiltersPopover({
   // active filter count for trigger badge
   const activeCount = useMemo(() => {
     let n = 0;
-    if (query) n++;
+    // if (query) n++;
     if (from) n++;
     if (to) n++;
     for (const v of Object.values(selectValues)) if (v) n++;
