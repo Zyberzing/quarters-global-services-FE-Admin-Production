@@ -48,6 +48,7 @@ import AdditionalQuestions from './AdditionalQuestion';
 import USPassportForm from './USPassportForm';
 import { useRouter } from 'next/navigation';
 import { visaServices_platformServiceId } from '@/lib/staticIds';
+import { OtpModal } from '@/components/common/OtpModal';
 
 const ApplicationForm = ({
   isView = false,
@@ -60,6 +61,7 @@ const ApplicationForm = ({
 }) => {
   const router = useRouter();
   // Helper function to extract addon IDs from application data
+  const [otpModalOpen, setOtpModalOpen] = useState(false);
 
   const [isSubCategoriesAvailable, setIsSubCategoriesAvailable] = useState(
     !!applicationData?.platformServiceSubCategoryId,
@@ -917,7 +919,7 @@ const ApplicationForm = ({
             <USPassportForm isView={isView} />
           ) : (
             <>
-              <PersonalInfo isView={isView} isEdit={isEdit} />
+              <PersonalInfo isView={isView} isEdit={isEdit} setOtpModalOpen={setOtpModalOpen} />
               <PassportDetails isView={isView} />
               <ContactInfo isView={isView} />
               <FamilyInfo isView={isView} />
@@ -1059,6 +1061,13 @@ const ApplicationForm = ({
           </div>
         </div>
       </form>
+      {otpModalOpen && (
+        <OtpModal
+          isOpen={otpModalOpen}
+          onClose={() => setOtpModalOpen(false)}
+          email={form.getValues('email') || ''}
+        />
+      )}
     </Form>
   );
 };

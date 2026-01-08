@@ -12,15 +12,55 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { format } from 'date-fns';
 import { PhoneInput2 } from '@/components/ui/PhoneInput2';
+import { Button } from '@/components/ui/button';
+import { fetcher } from '@/lib/fetcher';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function PersonalInfo({
   isView = false,
   isEdit = false,
+  setOtpModalOpen,
 }: {
   isView?: boolean;
   isEdit?: boolean;
+  setOtpModalOpen: (open: boolean) => void;
 }) {
   const form = useFormContext();
+  const email = form.watch('email');
+  const [emailVerified, setEmailVerified] = useState();
+  useEffect(() => {
+    if (isEdit) {
+      setEmailVerified(email);
+    }
+  }, [isEdit]);
+  useEffect(() => {
+    if (emailVerified !== email) {
+      setEmailVerified(undefined);
+    }
+  }, [email]);
+
+  const [loading, setEmailLoading] = useState(false);
+  const handleEmailVerify = async (body: { email: string }) => {
+    setEmailLoading(true);
+    try {
+      const result = await fetcher('/user/verify-email', {
+        method: 'POST',
+        body,
+      });
+      const data = await result;
+
+      if (data.status) {
+        toast.success(data.message || 'Email verified successfully');
+        setOtpModalOpen(true);
+        setEmailVerified(email);
+      }
+      setEmailLoading(false);
+    } catch (error) {
+      setEmailLoading(false);
+      throw error;
+    }
+  };
   return (
     <div className="p-4 border rounded-lg grid sm:grid-cols-2 gap-4">
       <p className="col-span-2 font-semibold">Personal Information</p>
@@ -85,7 +125,20 @@ export default function PersonalInfo({
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input type="email" readOnly={isView} disabled={!!isEdit} {...field} />
+              <div className="flex justify-between items-center gap-2">
+                <Input type="email" readOnly={isView} disabled={!!isEdit} {...field} />
+                <Button
+                  className="h-full"
+                  disabled={isView || isEdit || loading || emailVerified}
+                  onClick={() => handleEmailVerify({ email: form.getValues('email') })}
+                >
+                  {loading
+                    ? 'Verifying...'
+                    : emailVerified === email || isEdit
+                      ? 'Verified'
+                      : 'Verify'}
+                </Button>
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>
