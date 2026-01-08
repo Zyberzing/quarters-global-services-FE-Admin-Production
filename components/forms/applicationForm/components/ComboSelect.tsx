@@ -78,11 +78,14 @@ const ComboSelect = ({
           cache: 'no-cache',
           revalidate: 60,
         });
-        if (name === 'platformServiceCategoryPackageId') {
-          console.log(response, 'response');
-        }
+        console.log('Fetched options response:', response, name);
         let fetchedOptions: any[] = [];
-        if (name === 'platformServiceSubCategoryId') {
+        if (name === 'platformServiceId') {
+          fetchedOptions = response?.data?.data.filter(
+            (service: any) => service?.slug !== 'other-services' && service?.slug !== 'tax-filling',
+          );
+          console.log('Filtered platformServiceId options:', fetchedOptions);
+        } else if (name === 'platformServiceSubCategoryId') {
           fetchedOptions = response?.data?.data?.[0]?.subCategories || [];
         } else {
           fetchedOptions = response?.data?.data || [];
