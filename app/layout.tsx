@@ -3,6 +3,7 @@ import './globals.css';
 import Providers from './providers';
 import { Toaster } from 'sonner';
 import GoogleProvider from '@/components/common/GoogleProvider';
+import NextTopLoader from 'nextjs-toploader';
 
 const poppins = Poppins({
   weight: ['400', '700'],
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable}  antialiased w-svw overflow-x-hidden`}>
-        {/* <NextTopLoader /> */}
+        <NextTopLoader />
         <GoogleProvider>
           <Providers>{children}</Providers>
         </GoogleProvider>
