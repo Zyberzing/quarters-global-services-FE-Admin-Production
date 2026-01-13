@@ -27,7 +27,7 @@ import { toast } from 'sonner';
 import { FormCombobox } from '@/components/common/FormComboBox';
 import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import { Autocomplete } from '@react-google-maps/api';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 export const vehicleList = [
   { id: 'sedan', name: 'Sedan' },
   { id: 'mid-suv', name: 'Mid Size SUV' },
@@ -314,7 +314,13 @@ const VehicleBookingForm = ({
               <FormItem>
                 <FormLabel>Pickup Date</FormLabel>
                 <FormControl>
-                  <Input type="datetime-local" placeholder="" disabled={isView} {...field} />
+                  <Input
+                    type="datetime-local"
+                    placeholder=""
+                    disabled={isView}
+                    {...field}
+                    min={format(new Date(), "yyyy-MM-dd'T'HH:mm")}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -327,7 +333,17 @@ const VehicleBookingForm = ({
               <FormItem>
                 <FormLabel>Drop Date</FormLabel>
                 <FormControl>
-                  <Input type="datetime-local" placeholder="" disabled={isView} {...field} />
+                  <Input
+                    type="datetime-local"
+                    placeholder=""
+                    disabled={isView}
+                    {...field}
+                    min={
+                      form.watch('pickupDate')
+                        ? format(addDays(form.watch('pickupDate'), 1), "yyyy-MM-dd'T'HH:mm")
+                        : ''
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
