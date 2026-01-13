@@ -105,7 +105,9 @@ export type UserDataType = {
 export type BookingDataType = {
   _id: string;
   agent?: string;
-  fullName: string;
+  // fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   countryCode: string;
   phone: string;

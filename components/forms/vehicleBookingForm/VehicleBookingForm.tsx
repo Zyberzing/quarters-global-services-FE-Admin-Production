@@ -30,7 +30,9 @@ import { Autocomplete } from '@react-google-maps/api';
 import { format } from 'date-fns';
 
 const formSchema = z.object({
-  fullName: z.string().min(1, 'Full Name is required'),
+  // fullName: z.string().min(1, 'Full Name is required'),
+  firstName: z.string().min(1, 'First Name is required'),
+  lastName: z.string().min(1, 'Last Name is required'),
   agent: z.string().optional(),
   email: z
     .string()
@@ -77,7 +79,8 @@ const VehicleBookingForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: bookingData?.fullName || '',
+      firstName: bookingData?.firstName || '',
+      lastName: bookingData?.lastName || '',
       agent: bookingData?.agent || '',
       email: bookingData?.email || '',
       countryCode: bookingData?.countryCode || '',
@@ -111,7 +114,8 @@ const VehicleBookingForm = ({
     try {
       const payload = {
         agent: values.agent,
-        fullName: values.fullName,
+        firstName: values.firstName,
+        lastName: values.lastName,
         email: values.email,
         countryCode: values.countryCode,
         phone: values.phone,
@@ -171,10 +175,10 @@ const VehicleBookingForm = ({
           {isView && <p className=" font-semibold col-span-2 border-b pb-2">Booking Details</p>}
           <FormField
             control={form.control}
-            name="fullName"
+            name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel>First Name</FormLabel>
                 <FormControl>
                   <Input placeholder="" disabled={isView} {...field} />
                 </FormControl>
@@ -182,6 +186,20 @@ const VehicleBookingForm = ({
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="" disabled={isView} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="agent"
