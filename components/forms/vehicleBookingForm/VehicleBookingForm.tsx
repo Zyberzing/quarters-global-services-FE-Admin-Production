@@ -239,7 +239,7 @@ const VehicleBookingForm = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="" disabled={isView} {...field} />
+                  <Input type="email" placeholder="" disabled={isView || isEdit} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -479,13 +479,14 @@ const VehicleBookingForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Number of Passengers</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isView}>
-                  <FormControl>
-                    <SelectTrigger className="w-full">
+
+                <FormControl>
+                  {/* <SelectTrigger className="w-full">
                       <SelectValue placeholder="" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
+                    </SelectTrigger> */}
+                  <Input {...field} />
+                </FormControl>
+                {/* <SelectContent>
                     <SelectItem value="1">1</SelectItem>
                     <SelectItem value="2">2</SelectItem>
                     <SelectItem value="3">3</SelectItem>
@@ -493,8 +494,8 @@ const VehicleBookingForm = ({
                     <SelectItem value="5">5</SelectItem>
                     <SelectItem value="6">6</SelectItem>
                     <SelectItem value="7">7+</SelectItem>
-                  </SelectContent>
-                </Select>
+                  </SelectContent> */}
+
                 <FormMessage />
               </FormItem>
             )}
