@@ -129,6 +129,8 @@ export type BookingDataType = {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
+  paymentType?: string;
+  note?: string;
 };
 export type DriverDataType = {
   _id: string;
