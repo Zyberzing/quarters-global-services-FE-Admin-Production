@@ -40,7 +40,6 @@ const ApostillePage = ({
   applicationsData: ApiPagination & { data: ApostilleApplicationDataType[] };
   bookingSource: ApostilleBookingSources;
 }) => {
-  console.log(applicationsData, 'applicationsData');
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
@@ -107,11 +106,15 @@ const ApostillePage = ({
       className: 'text-center',
       render: (row: any) => (
         <div className="flex items-center justify-center gap-2">
-          <Link href={`/admin/apostille/edit?application=${row.id}`}>
+          <Link
+            href={`/admin/apostille/edit?application=${row.id}&init=${JSON.stringify(row.fullData)}`}
+          >
             <Icon name="edit" />
           </Link>
 
-          <Link href={`/admin/apostille/edit?application=${row.id}&isView=1`}>
+          <Link
+            href={`/admin/apostille/view?application=${row.id}&init=${JSON.stringify(row.fullData)}`}
+          >
             <Icon name="view" />
           </Link>
 
@@ -149,6 +152,8 @@ const ApostillePage = ({
     date: data.createdAt,
 
     status: data.status,
+
+    fullData: data,
   }));
   return (
     <div className="space-y-4">

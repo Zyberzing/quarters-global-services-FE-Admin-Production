@@ -40,6 +40,7 @@ const ApplicationsPage = ({
   selectedApplicationSources: ApplicationSource;
   isShippingAvailable?: string;
 }) => {
+  console.log(applicationsData, 'applicationsData');
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 

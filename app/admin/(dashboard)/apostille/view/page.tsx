@@ -23,7 +23,7 @@ const page = async ({
     return redirect('/admin/home');
   }
 
-  return <ApostilleForm defaultValues={initDataParse} isEdit />;
+  return <ApostilleForm defaultValues={initDataParse} isView />;
 };
 
 export default page;

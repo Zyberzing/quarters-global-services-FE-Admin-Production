@@ -308,6 +308,9 @@ export interface ApostilleApplicationDataType {
   status: string;
   orderType: string;
   currency: string;
+  paymentStatus: string;
+  paymentMode: string;
+  paymentType: string;
   customer: {
     firstName: string;
     lastName: string;

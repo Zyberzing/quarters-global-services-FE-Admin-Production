@@ -32,6 +32,7 @@ import { toast } from 'sonner';
 import { formatCurrency } from '@/lib/formatCurrency';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { ApostilleApplicationDataType } from '@/lib/types';
 
 const DEMO_DOCUMENTS = [
   // Personal Documents
@@ -346,60 +347,133 @@ const formSchema = z.object({
 export type ApostilleFormSchemaType = z.infer<typeof formSchema>;
 type FormValues = z.infer<typeof formSchema>;
 
-const ApostilleForm = () => {
+const ApostilleForm = ({
+  defaultValues,
+  isEdit,
+  isView,
+}: {
+  defaultValues?: ApostilleApplicationDataType;
+  isEdit?: boolean;
+  isView?: boolean;
+}) => {
   const router = useRouter();
-
+  console.log(defaultValues, 'defaultValues');
   // --
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      countryCode: '+1',
+      firstName: defaultValues?.customer?.firstName ?? '',
+      lastName: defaultValues?.customer?.lastName ?? '',
+      email: defaultValues?.customer?.email ?? '',
+      phone: defaultValues?.customer?.phone ?? '',
+      countryCode: defaultValues?.customer?.countryCode ?? '+1',
 
       physicalAddress: {
-        addressLine1: '',
-        addressLine2: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: '',
+        addressLine1: defaultValues?.addresses?.physical?.addressLine1 ?? '',
+        addressLine2: defaultValues?.addresses?.physical?.addressLine1 ?? '',
+        city: defaultValues?.addresses?.physical?.city ?? '',
+        state: defaultValues?.addresses?.physical?.state ?? '',
+        zipCode: defaultValues?.addresses?.physical?.zipCode ?? '',
+        country: defaultValues?.addresses?.physical?.country ?? '',
       },
 
       legalAddress: {
-        addressLine1: '',
-        addressLine2: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: '',
+        addressLine1: defaultValues?.addresses?.legal?.addressLine1 ?? '',
+        addressLine2: defaultValues?.addresses?.legal?.addressLine1 ?? '',
+        city: defaultValues?.addresses?.legal?.city ?? '',
+        state: defaultValues?.addresses?.legal?.state ?? '',
+        zipCode: defaultValues?.addresses?.legal?.zipCode ?? '',
+        country: defaultValues?.addresses?.legal?.country ?? '',
       },
 
-      destinationCountry: '',
+      destinationCountry: defaultValues?.serviceSelection?.destinationCountry ?? '',
 
-      scannedCopy: false,
+      scannedCopy: defaultValues?.serviceSelection?.addons?.scannedCopy?.selected ?? false,
 
-      documents: [],
+      documents:
+        defaultValues?.serviceSelection?.documents?.map((d) => ({
+          documentType: d.documentType,
+          issuedState: d.issuedState,
+          packageId: d.packageId,
+          packageName: d.packageName,
+          price: String(d.price),
+          quantity: String(defaultValues?.serviceSelection?.documents.length || 0),
+        })) ?? [],
 
       translation: {
-        selected: false,
-        language: '',
-        pages: '',
+        selected: !!defaultValues?.serviceSelection?.addons?.translation?.selected,
+        language: defaultValues?.serviceSelection?.addons?.translation?.language ?? '',
+        pages: String(defaultValues?.serviceSelection?.addons?.translation?.pages ?? 0),
         price: '',
       },
 
-      subTotal: '',
-      grandTotal: '',
+      subTotal: String(defaultValues?.pricing?.subTotal ?? ''),
+      grandTotal: String(defaultValues?.pricing?.grandTotal ?? ''),
 
-      paymentStatus: '',
-      paymentMode: '',
-      paymentType: '',
+      paymentStatus: defaultValues?.transactionDetails?.paymentStatus ?? '',
+      paymentMode: defaultValues?.transactionDetails.paymentMode ?? '',
+      paymentType: defaultValues?.transactionDetails.paymentType ?? '',
     },
   });
   console.log(form.formState.errors, ':Form Error');
 
+  useEffect(() => {
+    if (defaultValues) {
+      form.reset({
+        firstName: defaultValues?.customer?.firstName ?? '',
+        lastName: defaultValues?.customer?.lastName ?? '',
+        email: defaultValues?.customer?.email ?? '',
+        phone: defaultValues?.customer?.phone ?? '',
+        countryCode: defaultValues?.customer?.countryCode ?? '+1',
+
+        physicalAddress: {
+          addressLine1: defaultValues?.addresses?.physical?.addressLine1 ?? '',
+          addressLine2: defaultValues?.addresses?.physical?.addressLine1 ?? '',
+          city: defaultValues?.addresses?.physical?.city ?? '',
+          state: defaultValues?.addresses?.physical?.state ?? '',
+          zipCode: defaultValues?.addresses?.physical?.zipCode ?? '',
+          country: defaultValues?.addresses?.physical?.country ?? '',
+        },
+
+        legalAddress: {
+          addressLine1: defaultValues?.addresses?.legal?.addressLine1 ?? '',
+          addressLine2: defaultValues?.addresses?.legal?.addressLine1 ?? '',
+          city: defaultValues?.addresses?.legal?.city ?? '',
+          state: defaultValues?.addresses?.legal?.state ?? '',
+          zipCode: defaultValues?.addresses?.legal?.zipCode ?? '',
+          country: defaultValues?.addresses?.legal?.country ?? '',
+        },
+
+        destinationCountry: defaultValues?.serviceSelection?.destinationCountry ?? '',
+
+        scannedCopy: defaultValues?.serviceSelection?.addons?.scannedCopy?.selected ?? false,
+
+        documents:
+          defaultValues?.serviceSelection?.documents?.map((d) => ({
+            documentType: d.documentType,
+            issuedState: d.issuedState,
+            packageId: d.packageId,
+            packageName: d.packageName,
+            price: String(d.price),
+            quantity: String(defaultValues?.serviceSelection?.documents.length || 0),
+          })) ?? [],
+
+        translation: {
+          selected: !!defaultValues?.serviceSelection?.addons?.translation?.selected,
+          language: defaultValues?.serviceSelection?.addons?.translation?.language ?? '',
+          pages: String(defaultValues?.serviceSelection?.addons?.translation?.pages ?? 0),
+          price: '',
+        },
+
+        subTotal: String(defaultValues?.pricing?.subTotal ?? ''),
+        grandTotal: String(defaultValues?.pricing?.grandTotal ?? ''),
+
+        paymentStatus: defaultValues?.transactionDetails?.paymentStatus ?? '',
+        paymentMode: defaultValues?.transactionDetails.paymentMode ?? '',
+        paymentType: defaultValues?.transactionDetails.paymentType ?? '',
+      });
+    }
+  }, [defaultValues]);
   /* ------------------------------------------------------------------------ */
 
   const onSubmit = handleAsync(async (values: FormValues) => {
@@ -790,6 +864,7 @@ const ApostilleForm = () => {
 
               form.setValue('documents', docs);
             }}
+            value={String(form.watch('documents')?.length ?? 0)}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select number" />
@@ -815,6 +890,7 @@ const ApostilleForm = () => {
                   <FormItem>
                     <FormLabel>Document Type</FormLabel>
                     <Select
+                      value={field.value}
                       onValueChange={(val) => {
                         field.onChange(val);
                         form.setValue(`documents.${index}.packageId`, '');
@@ -845,7 +921,7 @@ const ApostilleForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Issued State</FormLabel>
-                    <Select onValueChange={field.onChange}>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select state" />
                       </SelectTrigger>
@@ -870,6 +946,7 @@ const ApostilleForm = () => {
                   <FormItem>
                     <FormLabel>Package</FormLabel>
                     <Select
+                      value={field.value}
                       onValueChange={(pkgId) => {
                         const pkg = DEMO_PACKAGES.find((p) => p.id === pkgId);
                         if (!pkg) return;
@@ -912,7 +989,7 @@ const ApostilleForm = () => {
               <FormItem>
                 <FormLabel>Payment Status</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
@@ -937,7 +1014,7 @@ const ApostilleForm = () => {
               <FormItem>
                 <FormLabel>Payment Mode</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select mode" />
                     </SelectTrigger>
@@ -962,7 +1039,7 @@ const ApostilleForm = () => {
               <FormItem>
                 <FormLabel>Payment Type</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
@@ -1022,10 +1099,18 @@ const ApostilleForm = () => {
 
         {/* ------------------------------ ACTIONS ----------------------------- */}
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" asChild>
-            <Link href="/admin/apostille">Cancel</Link>
-          </Button>
-          <Button type="submit">Save</Button>
+          {!isView ? (
+            <>
+              <Button type="button" variant="outline" asChild>
+                <Link href="/admin/apostille">Cancel</Link>
+              </Button>
+              <Button type="submit">Save</Button>
+            </>
+          ) : (
+            <Button type="button" variant="outline" asChild>
+              <Link href="/admin/apostille">Back</Link>
+            </Button>
+          )}
         </div>
       </form>
     </Form>
