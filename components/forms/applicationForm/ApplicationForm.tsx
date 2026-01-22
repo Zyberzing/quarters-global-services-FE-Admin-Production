@@ -25,16 +25,14 @@ import PackageAddons from './components/PackageAddons';
 import { toast } from 'sonner';
 import { createApplicationValidator, CreateApplicationType } from './schemas/index';
 
-import { emailSchema } from '@/lib/formSchemaFunctions';
 import {
   changeStatusApplication,
   createApplication,
   editApplication,
 } from '@/services/applicatonService';
 import handleAsync from '@/lib/handleAsync';
-import { applicationSources, ApplicationStatus, applicationStatuses } from '@/lib/types';
+import { ApplicationSource, ApplicationStatus, applicationStatuses } from '@/lib/types';
 import Link from 'next/link';
-import { getUsers } from '@/services/usersService';
 import { uploadFile } from '@/lib/uploadUtils';
 import PersonalInfo from './PersonalInfo';
 import PassportDetails from './PassportDetails';
@@ -54,10 +52,12 @@ const ApplicationForm = ({
   isView = false,
   isEdit = false,
   applicationData,
+  applicationSources = 'AdminPortal',
 }: {
   isView?: boolean;
   isEdit?: boolean;
   applicationData?: any;
+  applicationSources?: ApplicationSource;
 }) => {
   const router = useRouter();
   // Helper function to extract addon IDs from application data
@@ -294,7 +294,7 @@ const ApplicationForm = ({
           },
 
           status: 'Submitted',
-          applicationSource: applicationSources?.[0],
+          applicationSource: applicationSources,
 
           fromCountryId: values.fromCountryId,
           toCountryId: values.toCountryId,
@@ -445,7 +445,10 @@ const ApplicationForm = ({
     };
     await createApplication(backendPayload);
     toast.success('Application submitted successfully!');
-    router.push('/admin/applications?revalidate=' + Date.now());
+    if (applicationSources === 'AdminPortal')
+      router.push('/admin/applications?revalidate=' + Date.now());
+    if (applicationSources === 'AgentPortal')
+      router.push('/agent/applications?revalidate=' + Date.now());
   });
 
   const onEditSubmit = handleAsync(async (values: CreateApplicationType) => {
@@ -636,26 +639,10 @@ const ApplicationForm = ({
     };
     await editApplication(backendPayload);
     toast.success('Application edited successfully!');
-    router.push('/admin/applications?revalidate=' + Date.now());
-  });
-
-  // Check is  user data exist when entered email
-  const _checkExistingUserData = handleAsync(async () => {
-    const email = form.getValues('email') || '';
-    const validation = emailSchema().safeParse(email);
-    if (!validation.success) {
-      console.log(validation.error || 'Invalid email');
-      return;
-    }
-    setCheckUserLoading(async () => {
-      const user = await getUsers({ search: email })?.then((e) => e?.data?.[0]);
-      if (user) {
-        form.setValue('firstName', user.firstName || '');
-        form.setValue('lastName', user.lastName || '');
-        form.setValue('phone', user.phone || '');
-        form.setValue('country', user.country || '');
-      }
-    });
+    if (applicationSources === 'AdminPortal')
+      router.push('/admin/applications?revalidate=' + Date.now());
+    if (applicationSources === 'AgentPortal')
+      router.push('/agent/applications?revalidate=' + Date.now());
   });
 
   // Handle application status  change
@@ -1050,7 +1037,15 @@ const ApplicationForm = ({
         <div className="flex items-center gap-2 justify-between">
           <div className="flex items-center gap-2">
             <Button type="button" variant="outline" disabled={form.formState.isSubmitting} asChild>
-              <Link href="/admin/applications">Cancel</Link>
+              <Link
+                href={
+                  applicationSources === 'AgentPortal'
+                    ? '/admin/applications'
+                    : '/agent/applications'
+                }
+              >
+                Cancel
+              </Link>
             </Button>
 
             {!isView && (
