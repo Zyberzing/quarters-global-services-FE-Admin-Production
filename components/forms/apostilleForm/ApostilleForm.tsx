@@ -26,7 +26,7 @@ import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import ComboSelect from '../applicationForm/components/ComboSelect';
 import { Label } from '@/components/ui/label';
 import { useEffect } from 'react';
-import { createApostilleApplicaton } from '@/services/apostilleService';
+import { createApostilleApplicaton, updateApostilleApplicaton } from '@/services/apostilleService';
 import handleAsync from '@/lib/handleAsync';
 import { toast } from 'sonner';
 import { formatCurrency } from '@/lib/formatCurrency';
@@ -490,7 +490,7 @@ const ApostilleForm = ({
     );
 
     if (hasIncompleteDoc) {
-      alert('Please complete all document details');
+      toast.error('Please complete all document details');
       return;
     }
 
@@ -556,8 +556,17 @@ const ApostilleForm = ({
       },
     };
 
-    await createApostilleApplicaton(payload as any);
-    toast.success('Apostille application created successfully');
+    if (isEdit) {
+      if (!defaultValues?._id) return;
+      await updateApostilleApplicaton({
+        ...payload,
+        apostilleLegalizationId: defaultValues?._id,
+      } as any);
+      toast.success('Apostille application updated successfully');
+    } else {
+      await createApostilleApplicaton(payload as any);
+      toast.success('Apostille application created successfully');
+    }
     router.push('/admin/apostille');
   });
 
@@ -1101,10 +1110,17 @@ const ApostilleForm = ({
         <div className="flex justify-end gap-2">
           {!isView ? (
             <>
-              <Button type="button" variant="outline" asChild>
+              <Button
+                type="button"
+                variant="outline"
+                asChild
+                disabled={form.formState.isSubmitting}
+              >
                 <Link href="/admin/apostille">Cancel</Link>
               </Button>
-              <Button type="submit">Save</Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                Save
+              </Button>
             </>
           ) : (
             <Button type="button" variant="outline" asChild>

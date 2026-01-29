@@ -1,5 +1,4 @@
 'use server';
-import { UserFormSchemaType } from '@/components/forms/userForm/UserForm';
 import { fetcher } from '@/lib/fetcher';
 import { ApiPagination, ApostilleApplicationDataType, ApostilleBookingSources } from '@/lib/types';
 import { commonEmptyResponse } from './helper';
@@ -46,50 +45,26 @@ export const getApostilleApplications = async ({
   }
 };
 
-// export const getUserById = async (id: string): Promise<UserDataType | null> => {
-//   try {
-//     const data = await fetcher('/user/get-user/' + id, {
-//       cache: 'no-cache',
-//     });
-//     return data?.data || null;
-//   } catch (error) {
-//     console.log(error, 'User fetch error');
-//     return null;
-//   }
-// };
-
 export const createApostilleApplicaton = async (body: ApostilleFormSchemaType) => {
   try {
     const result = await fetcher('/apostille-legalization/create-apostille-legalization', {
       method: 'POST',
       body,
     });
-    revalidatePath('/admin/users-and-roles');
+    revalidatePath('/admin/apostille');
     return result;
   } catch (error) {
     throw error;
   }
 };
 
-export const editUser = async (id: string, body: UserFormSchemaType) => {
+export const updateApostilleApplicaton = async (body: ApostilleFormSchemaType) => {
   try {
-    const result = await fetcher(`/user/update-user/${id}`, {
-      method: 'PUT',
+    const result = await fetcher('/apostille-legalization/update-apostille-legalization', {
+      method: 'POST',
       body,
     });
-    revalidatePath('/admin/users-and-roles');
-    return result;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const deleteUser = async (id: string) => {
-  try {
-    const result = await fetcher(`/user/delete-user/${id}`, {
-      method: 'DELETE',
-    });
-    revalidatePath('/admin/users-and-roles');
+    revalidatePath('/admin/apostille');
     return result;
   } catch (error) {
     throw error;
