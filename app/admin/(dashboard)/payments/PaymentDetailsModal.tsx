@@ -80,7 +80,7 @@ function PaymentDetailsModal({ children, transaction }: Props) {
 
           <div className="flex justify-between">
             <span className="font-medium text-muted-foreground">Date </span>
-            <span>{new Date(transaction.updatedAt).toLocaleDateString()}</span>
+            <span>{format(new Date(transaction.updatedAt), 'dd-MM-yyyy')}</span>
           </div>
 
           <div className="flex justify-between">

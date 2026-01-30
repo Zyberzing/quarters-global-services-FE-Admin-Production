@@ -14,9 +14,9 @@ const LoginPage = () => {
         <div className="flex flex-col justify-between h-full py-8">
           <div className="xl:max-w-[456px] w-[94%]  mx-auto grow">
             <h1 className="md:text-2xl mb-6 text-xl font-semibold text-text-secondary-200">
-              Welcome back to Quartus
+              Login
             </h1>
-            <h2 className="md:text-5xl text-3xl font-normal text-text-secondary-200">Login</h2>
+            {/* <h2 className="md:text-5xl text-3xl font-normal text-text-secondary-200">Login</h2> */}
 
             <LoginForm />
             <div className="text-center space-y-3 mb-2 text-sm">

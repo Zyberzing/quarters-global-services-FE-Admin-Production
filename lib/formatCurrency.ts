@@ -1,7 +1,7 @@
 export const formatCurrency = ({
   amount,
   currency = 'USD',
-  locale = 'de-DE',
+  locale = 'en-US',
 }: {
   amount: number | string;
   currency?: string;
