@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -24,6 +24,7 @@ import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import { otherServices_platformServiceId } from '@/lib/staticIds';
 import { ApplicationSource } from '@/lib/types';
 import { commonFieldSchema, emailSchema, phoneNumberSchema } from '@/lib/formSchemaFunctions';
+import { Autocomplete } from '@react-google-maps/api';
 
 const formSchema = z.object({
   // Basic fields
@@ -34,7 +35,7 @@ const formSchema = z.object({
   countryCode: commonFieldSchema(),
 
   // Service-specific fields
-  country: commonFieldSchema(),
+  country: commonFieldSchema().optional().or(z.literal('')),
   city: commonFieldSchema(),
   state: commonFieldSchema(),
   travelerFullName: commonFieldSchema(),
@@ -60,6 +61,8 @@ const STEPEnrollmentForm = ({
   defaultData?: any;
 }) => {
   const router = useRouter();
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -224,7 +227,7 @@ const STEPEnrollmentForm = ({
           />
 
           {/* Country */}
-          <FormField
+          {/* <FormField
             control={form.control}
             name="country"
             render={({ field }) => (
@@ -236,7 +239,7 @@ const STEPEnrollmentForm = ({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           {/* City */}
           <FormField
@@ -324,9 +327,24 @@ const STEPEnrollmentForm = ({
             render={({ field }) => (
               <FormItem className="sm:col-span-2">
                 <FormLabel>Trip Destination(s)</FormLabel>
+                <FormControl></FormControl>
+
                 <FormControl>
-                  <Input {...field} placeholder="Enter trip destination(s)" disabled={isView} />
+                  <Autocomplete
+                    onLoad={(autocomplete: any) => {
+                      autocompleteRef.current = autocomplete;
+                    }}
+                    onPlaceChanged={() => {
+                      const place = autocompleteRef.current?.getPlace();
+                      if (!place?.address_components) return;
+
+                      field.onChange(place.formatted_address || '');
+                    }}
+                  >
+                    <Input {...field} placeholder="Enter trip destination(s)" disabled={isView} />
+                  </Autocomplete>
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}

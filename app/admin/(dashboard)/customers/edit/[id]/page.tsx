@@ -1,6 +1,5 @@
 import CustomerForm from '@/components/forms/customerForm/CustomerForm';
 import React from 'react';
-import Actions from './Actions';
 import { redirect } from 'next/navigation';
 import hasAccess from '@/hooks/useAccessControl/hasAccess';
 import { PERMISSIONS_LIST_ENUM } from '@/hooks/useAccessControl/permissions';
@@ -33,7 +32,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             Customer: {customerData.firstName} {customerData.lastName}
           </p>
         </div>
-        <Actions />
+        {/* <Actions /> */}
       </div>
 
       <CustomerForm customerData={customerData} isEdit={true} />

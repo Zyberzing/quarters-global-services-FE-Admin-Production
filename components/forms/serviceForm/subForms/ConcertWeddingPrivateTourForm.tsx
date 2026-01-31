@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -30,6 +30,7 @@ import { PhoneInput2 } from '@/components/ui/PhoneInput2';
 import { otherServices_platformServiceId } from '@/lib/staticIds';
 import { ApplicationSource } from '@/lib/types';
 import { commonFieldSchema, emailSchema } from '@/lib/formSchemaFunctions';
+import { Autocomplete } from '@react-google-maps/api';
 
 const eventTypes = ['Concert', 'Wedding', 'Private Tour', 'Corporate Ground Transport'];
 
@@ -65,6 +66,8 @@ const ConcertWeddingPrivateTourForm = ({
   defaultData?: any;
 }) => {
   const router = useRouter();
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
   const [isLoading, setIsLoading] = useState(false);
   console.log(defaultData, 'defaultData');
   const form = useForm<z.infer<typeof formSchema>>({
@@ -277,7 +280,82 @@ const ConcertWeddingPrivateTourForm = ({
               <FormItem className="sm:col-span-2">
                 <FormLabel>Organizer Address</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isView} />
+                  <Autocomplete
+                    onLoad={(autocomplete: any) => {
+                      autocompleteRef.current = autocomplete;
+                    }}
+                    onPlaceChanged={() => {
+                      const place = autocompleteRef.current?.getPlace();
+                      if (!place?.address_components) return;
+
+                      let addressLine = '';
+                      let city = '';
+                      let state = '';
+                      let country = '';
+                      let pincode = '';
+
+                      let streetNumber = '';
+                      let route = '';
+                      let sublocality = '';
+                      let premise = '';
+
+                      place.address_components.forEach((component) => {
+                        const types = component.types;
+
+                        if (types.includes('street_number')) {
+                          streetNumber = component.long_name;
+                        }
+
+                        if (types.includes('route')) {
+                          route = component.long_name;
+                        }
+
+                        if (
+                          types.includes('sublocality') ||
+                          types.includes('sublocality_level_1')
+                        ) {
+                          sublocality = component.long_name;
+                        }
+
+                        if (types.includes('premise')) {
+                          premise = component.long_name;
+                        }
+
+                        if (types.includes('locality')) {
+                          city = component.long_name;
+                        }
+
+                        if (types.includes('administrative_area_level_1')) {
+                          state = component.long_name;
+                        }
+
+                        if (types.includes('country')) {
+                          country = component.long_name;
+                        }
+
+                        if (types.includes('postal_code')) {
+                          pincode = component.long_name;
+                        }
+                      });
+
+                      // Build clean address line (NO city/state/pincode)
+                      addressLine = [premise, streetNumber, route, sublocality]
+                        .filter(Boolean)
+                        .join(', ');
+
+                      field.onChange(addressLine || '');
+                      form.setValue('city', city);
+                      form.setValue('state', state);
+                      form.setValue('country', country);
+                    }}
+                  >
+                    <Input
+                      {...field}
+                      placeholder="Enter address"
+                      autoComplete="off"
+                      disabled={isView}
+                    />
+                  </Autocomplete>
                 </FormControl>
                 <FormMessage />
               </FormItem>

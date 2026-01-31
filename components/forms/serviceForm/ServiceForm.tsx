@@ -326,11 +326,13 @@ const ServiceForm = ({
           <SelectValue placeholder="Select service type" />
         </SelectTrigger>
         <SelectContent>
-          {serviceCategories.map((category) => (
-            <SelectItem key={category._id} value={category.name}>
-              {category.name}
-            </SelectItem>
-          ))}
+          {serviceCategories
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((category) => (
+              <SelectItem key={category._id} value={category.name}>
+                {category.name}
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
       {renderServiceForm()}
