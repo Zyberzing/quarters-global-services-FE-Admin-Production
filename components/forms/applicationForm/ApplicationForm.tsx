@@ -248,6 +248,7 @@ const ApplicationForm = ({
       documents: {
         serviceType: applicationData?.serviceFields?.serviceType || 'empty',
       },
+      applicationServiceDetails: applicationData?.serviceFields?.applicationServiceDetails,
     },
     mode: 'all',
   });
@@ -449,6 +450,9 @@ const ApplicationForm = ({
             // ---
             createdBy: values.createdBy,
             note: values.note,
+
+            // --
+            applicationServiceDetails: values.applicationServiceDetails,
           },
         },
       ],
@@ -648,6 +652,9 @@ const ApplicationForm = ({
         // ---
         createdBy: values.createdBy,
         note: values.note,
+
+        // --
+        applicationServiceDetails: values.applicationServiceDetails,
       },
     };
     await editApplication(backendPayload);
@@ -738,6 +745,8 @@ const ApplicationForm = ({
               {} as Record<string, any>,
             ),
         },
+
+        applicationServiceDetails: applicationData?.serviceFields?.applicationServiceDetails,
       });
       if (applicationData?.serviceFields?.serviceType) {
         setSelectedCategory(applicationData?.serviceFields?.serviceType);
@@ -772,6 +781,7 @@ const ApplicationForm = ({
     }
   }, [countrySlug, serviceSlug, form]);
 
+  console.log(form.watch('applicationServiceDetails'), 'applicationServiceDetails');
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(isEdit ? onEditSubmit : onSubmit)} className="space-y-6">
@@ -861,7 +871,11 @@ const ApplicationForm = ({
                   ? `/platform-service/get-platform-service?toCountryId=${form.watch('toCountryId')}`
                   : ''
               }
-              onSlugSelect={(slug) => setServiceSlug(slug)}
+              onSlugSelect={(slug) => {
+                setServiceSlug(slug);
+
+                form.setValue('applicationServiceDetails.service', slug);
+              }}
             />
 
             <ComboSelect
@@ -881,6 +895,7 @@ const ApplicationForm = ({
                 setSelectedCategory(e);
 
                 form.setValue('documents.serviceType', e as 'empty');
+                form.setValue('applicationServiceDetails.serviceCategory', e);
               }}
             />
 
@@ -898,6 +913,8 @@ const ApplicationForm = ({
                   setSelectedCategory(e);
 
                   form.setValue('documents.serviceType', e as 'empty');
+
+                  form.setValue('applicationServiceDetails.serviceSubCategory', e);
                 }}
               />
             )}
@@ -920,6 +937,10 @@ const ApplicationForm = ({
                   onOptionSelect={(e) => {
                     handleDynamicAmount(e.price || 0);
                     form.setValue('platformServiceCategoryPackageAddonsId', []);
+
+                    form.setValue('applicationServiceDetails.servicePackage', e.slug);
+
+                    form.setValue('applicationServiceDetails.serviceAddons', '');
                   }}
                 />
               );
@@ -936,6 +957,23 @@ const ApplicationForm = ({
                     isEdit={isEdit}
                     onOptionSelect={(c, e) => {
                       handleDynamicAmountByAddon(c, e.price || 0);
+
+                      // handle service addons name
+                      const current =
+                        form.getValues('applicationServiceDetails.serviceAddons') || '';
+                      const addons = current
+                        ? current
+                            .split(',')
+                            .map((v) => v.trim())
+                            .filter(Boolean)
+                        : [];
+                      const updatedAddons = addons.includes(e.name)
+                        ? addons.filter((v) => v !== e.name)
+                        : [...addons, e.name];
+                      form.setValue(
+                        'applicationServiceDetails.serviceAddons',
+                        updatedAddons.join(', '),
+                      );
                     }}
                   />
                 </div>

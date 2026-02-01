@@ -223,6 +223,18 @@ const baseSchema = z.object({
     })
     .optional()
     .or(z.literal('')),
+
+  // Service details fields
+  applicationServiceDetails: z
+    .object({
+      service: commonFieldSchema().optional().or(z.literal('')),
+      serviceCategory: commonFieldSchema().optional().or(z.literal('')),
+      serviceSubCategory: commonFieldSchema().optional().or(z.literal('')),
+      servicePackage: commonFieldSchema().optional().or(z.literal('')),
+      serviceAddons: commonFieldSchema().optional().or(z.literal('')),
+    })
+    .optional()
+    .or(z.literal('')),
 });
 
 // Create the application validator

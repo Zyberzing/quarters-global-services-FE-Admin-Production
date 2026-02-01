@@ -7,7 +7,7 @@ export const passportUSANewDS11Schema = z.object({
   proofOfCitizenship: requiredFileSchema.optional().or(z.literal('')),
   proofOfIdentity: requiredFileSchema.optional().or(z.literal('')),
   passportPhoto2x2: requiredFileSchema.optional().or(z.literal('')),
-  socialSecurityNumber: z.string().min(1, 'Social Security Number is required'),
+  socialSecurityNumber: requiredFileSchema.optional().or(z.literal('')),
   ds11Form: requiredFileSchema.optional().or(z.literal('')),
 
   appointmentConfirmation: requiredFileSchema.optional().or(z.literal('')),

@@ -4,7 +4,7 @@ import CommonTable from '@/components/common/CommonTable';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus } from 'lucide-react';
+import { Download, Loader, Plus } from 'lucide-react';
 import Link from 'next/link';
 import Icon from '@/components/common/Icon';
 import DeleteConfirm from '@/components/common/DeleteConfirm';
@@ -22,6 +22,8 @@ import { useRouter } from 'next/navigation';
 import { ExcelExportButton } from '@/components/shared/ExcelExportButton';
 import CommonFilters from '@/components/common/CommonFilters';
 import { format } from 'date-fns';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { ApplicationRecipePdf } from '@/components/common/ApplicationRecipePdf';
 
 // Status color mapping
 // const statusColorMap: Record<string, 'default' | 'secondary' | 'success' | 'warning'> = {
@@ -33,7 +35,7 @@ import { format } from 'date-fns';
 // Component
 const ApplicationsPage = ({
   applicationsData,
-  selectedApplicationSources,
+  selectedApplicationSources = applicationSources[0],
   isShippingAvailable,
 }: {
   applicationsData: ApiPagination & { data: any[] };
@@ -127,6 +129,33 @@ const ApplicationsPage = ({
       render: (row: any) => <Badge variant={'default'}>{row.status}</Badge>,
     },
     {
+      header: 'Recipe',
+      accessor: 'recipe',
+      className: 'text-center',
+      render: (row: any) => (
+        <div className="flex items-center justify-center">
+          <PDFDownloadLink
+            document={<ApplicationRecipePdf data={row.recipe} />}
+            fileName="application.pdf"
+          >
+            {({ loading }) =>
+              loading ? (
+                <Button size="sm" variant="ghost" disabled>
+                  {' '}
+                  <Loader className="animate-spin" />{' '}
+                </Button>
+              ) : (
+                <Button size="sm" variant="ghost">
+                  {' '}
+                  <Download size={16} />{' '}
+                </Button>
+              )
+            }
+          </PDFDownloadLink>
+        </div>
+      ),
+    },
+    {
       header: 'Action',
       accessor: 'action',
       className: 'text-center',
@@ -166,6 +195,7 @@ const ApplicationsPage = ({
     email: data.email,
     totalAmount: data?.totalAmount,
     date: data.createdAt,
+    recipe: data,
     status: data.status,
   }));
   return (
@@ -175,8 +205,7 @@ const ApplicationsPage = ({
         {/* Tabs */}
         <Tabs
           defaultValue={
-            (selectedApplicationSources || applicationSources[0]) +
-            (isShippingAvailable === '1' ? '-shipping' : '')
+            selectedApplicationSources + (isShippingAvailable === '1' ? '-shipping' : '')
           }
           className="w-auto"
         >
@@ -246,7 +275,12 @@ const ApplicationsPage = ({
       </div>
 
       {/* Table */}
-      <CommonTable columns={columns} data={applications} />
+      <CommonTable
+        columns={columns.filter((f) =>
+          selectedApplicationSources !== 'AdminPortal' ? f.accessor !== 'recipe' : f,
+        )}
+        data={applications}
+      />
       <Paginator totalItems={applicationsData?.totalPages ?? 0} />
     </div>
   );
