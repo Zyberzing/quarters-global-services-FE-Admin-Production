@@ -229,6 +229,10 @@ const ApplicationForm = ({
       everConvicted: applicationData?.serviceFields?.everConvicted || '',
       convictedDetails: applicationData?.serviceFields?.convictedDetails || '',
 
+      // ---
+      createdBy: applicationData?.serviceFields?.createdBy || '',
+      note: applicationData?.serviceFields?.note || '',
+
       // -
       additionalServiceFields: {
         paymentMethod: applicationData?.serviceFields?.paymentMethod || '',
@@ -238,6 +242,8 @@ const ApplicationForm = ({
         paidAmount: applicationData?.serviceFields?.paidAmount || '',
         passportNumber: applicationData?.serviceFields?.passportNumber || '',
         paymentId: applicationData?.serviceFields?.paymentId || '',
+        discount: applicationData?.serviceFields?.discount || '',
+        amountToBePaid: applicationData?.serviceFields?.amountToBePaid || '',
       },
       documents: {
         serviceType: applicationData?.serviceFields?.serviceType || 'empty',
@@ -439,6 +445,10 @@ const ApplicationForm = ({
             arrestedDetails: values.arrestedDetails,
             everConvicted: values.everConvicted,
             convictedDetails: values.convictedDetails,
+
+            // ---
+            createdBy: values.createdBy,
+            note: values.note,
           },
         },
       ],
@@ -635,6 +645,9 @@ const ApplicationForm = ({
         arrestedDetails: values.arrestedDetails,
         everConvicted: values.everConvicted,
         convictedDetails: values.convictedDetails,
+        // ---
+        createdBy: values.createdBy,
+        note: values.note,
       },
     };
     await editApplication(backendPayload);
@@ -678,6 +691,11 @@ const ApplicationForm = ({
         state: applicationData?.address?.state || '',
         pincode: applicationData?.address?.zipCode || '',
         notes: applicationData?.description || '',
+
+        // ---
+        createdBy: applicationData?.serviceFields?.createdBy || '',
+        note: applicationData?.serviceFields?.note || '',
+
         // -
         additionalServiceFields: {
           paymentMethod: applicationData?.serviceFields?.paymentMethod || '',
@@ -687,6 +705,7 @@ const ApplicationForm = ({
           paidAmount: applicationData?.serviceFields?.paidAmount || '',
           passportNumber: applicationData?.serviceFields?.passportNumber || '',
           paymentId: applicationData?.serviceFields?.paymentId || '',
+          discount: applicationData?.serviceFields?.discount || '',
         },
         documents: {
           serviceType: applicationData?.serviceFields?.serviceType || 'empty',
@@ -936,6 +955,8 @@ const ApplicationForm = ({
                       <SelectContent>
                         <SelectItem value="Card">Card</SelectItem>
                         <SelectItem value="Cash">Cash</SelectItem>
+                        <SelectItem value="Zelle">Zelle</SelectItem>
+                        <SelectItem value="Online ">Online </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -972,12 +993,75 @@ const ApplicationForm = ({
                 <FormItem>
                   <FormLabel>Total Amount</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="" readOnly={isView} {...field} />
+                    <Input
+                      type="number"
+                      placeholder=""
+                      readOnly
+                      {...field}
+                      onChange={(e) => {
+                        const value = Number(e.target.value || 0);
+
+                        const discountValue = Number(
+                          form.getValues('additionalServiceFields.discount') || 0,
+                        );
+
+                        field.onChange(String(value));
+                        form.setValue(
+                          'additionalServiceFields.amountToBePaid',
+                          String(value - discountValue),
+                        );
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormField
+              name="additionalServiceFields.discount"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder=""
+                      readOnly={isView}
+                      {...field}
+                      onChange={(e) => {
+                        const value = Number(e.target.value || 0);
+
+                        const totalValue = Number(
+                          form.getValues('additionalServiceFields.totalAmount') || 0,
+                        );
+
+                        field.onChange(String(value < 0 ? 0 : value));
+                        form.setValue(
+                          'additionalServiceFields.amountToBePaid',
+                          String(totalValue - value),
+                        );
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="additionalServiceFields.amountToBePaid"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Amount To Be Paid</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="" readOnly {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               name="additionalServiceFields.paidAmount"
               control={form.control}
@@ -995,7 +1079,7 @@ const ApplicationForm = ({
               name="additionalServiceFields.paymentId"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem>
                   <FormLabel>Payment ID(If Applicable)</FormLabel>
                   <FormControl>
                     <Input placeholder="" readOnly={isView} {...field} />
@@ -1012,6 +1096,39 @@ const ApplicationForm = ({
                   <FormLabel>Assign Courier ID</FormLabel>
                   <FormControl>
                     <Input placeholder="" readOnly={isView} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Additional Details */}
+          <div className="p-4 border rounded-lg grid sm:grid-cols-2 gap-4">
+            <p className="col-span-2 font-semibold">Additional Details</p>
+
+            <FormField
+              name="createdBy"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Created By</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="" readOnly={isView} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              name="note"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Note</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="" readOnly={isView} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

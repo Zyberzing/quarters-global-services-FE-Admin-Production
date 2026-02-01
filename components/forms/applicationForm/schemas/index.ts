@@ -204,16 +204,22 @@ const baseSchema = z.object({
   everConvicted: commonFieldSchema().optional().or(z.literal('')),
   convictedDetails: commonFieldSchema().optional().or(z.literal('')),
 
+  // --
+  createdBy: commonFieldSchema().optional().or(z.literal('')),
+  note: commonFieldSchema().optional().or(z.literal('')),
+
   // Additional service fields
   additionalServiceFields: z
     .object({
       paymentMethod: commonFieldSchema().optional().or(z.literal('')),
       paymentStatus: commonFieldSchema().optional().or(z.literal('')),
       totalAmount: commonFieldSchema().optional().or(z.literal('')),
+      amountToBePaid: commonFieldSchema().optional().or(z.literal('')),
       paidAmount: commonFieldSchema().optional().or(z.literal('')),
       paymentId: commonFieldSchema().optional().or(z.literal('')),
       courierId: commonFieldSchema().optional().or(z.literal('')),
       passportNumber: commonFieldSchema().optional().or(z.literal('')),
+      discount: commonFieldSchema().optional().or(z.literal('')),
     })
     .optional()
     .or(z.literal('')),
