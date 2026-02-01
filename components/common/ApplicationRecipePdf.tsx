@@ -188,11 +188,6 @@ export const ApplicationRecipePdf = ({ data }: Props) => {
             <Text style={styles.label}>Status</Text>
             <Text style={styles.value}>{data.status}</Text>
           </View>
-
-          <View style={styles.row}>
-            <Text style={styles.label}>Application Source</Text>
-            <Text style={styles.value}>{data.applicationSource}</Text>
-          </View>
         </View>
 
         {/* PAYMENT INFO */}
@@ -202,6 +197,11 @@ export const ApplicationRecipePdf = ({ data }: Props) => {
           <View style={styles.row}>
             <Text style={styles.label}>Payment Method</Text>
             <Text style={styles.value}>{data.serviceFields?.paymentMethod}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Payment Status</Text>
+            <Text style={styles.value}>{data.serviceFields?.paymentStatus}</Text>
           </View>
 
           <View style={styles.row}>
