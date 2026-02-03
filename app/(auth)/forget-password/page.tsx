@@ -20,8 +20,10 @@ const ForgetPasswordPage = () => {
           </div>
 
           <div className="flex flex-wrap justify-between items-center text-text-secondary-200 font-normal text-xs">
-            <p>Copyright © 2025 Quartus All rights reserved.</p>
-            <Link href="#">Terms & Conditions</Link>
+            <p>Copyright © 2026 Quartus All rights reserved.</p>
+            <Link href="https://www.quartusglobalservice.com/terms-and-condition" target="_blank">
+              Terms & Conditions
+            </Link>
           </div>
         </div>
       </div>
