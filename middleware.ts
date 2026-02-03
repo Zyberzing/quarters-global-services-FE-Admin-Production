@@ -12,6 +12,7 @@ const publicRoutes = [
   '/agent/register',
   '/agent/onboard',
   '/agent/login',
+  '/terms-and-conditions',
 ];
 
 export async function middleware(req: NextRequest) {
