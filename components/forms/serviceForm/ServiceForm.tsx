@@ -149,11 +149,11 @@ const ServiceForm = ({
       case 'Vehicle Booking':
         return (
           <VehicleBookingForm
-            isView={isView}
-            platformServiceId={platformServiceId}
-            platformServiceCategoryPackageId={packageId}
-            applicationSource={applicationSource}
-            defaultData={defaultData}
+          // isView={isView}
+          // platformServiceId={platformServiceId}
+          // platformServiceCategoryPackageId={packageId}
+          // applicationSource={applicationSource}
+          // defaultData={defaultData}
           />
         );
       case 'Flight Charter':

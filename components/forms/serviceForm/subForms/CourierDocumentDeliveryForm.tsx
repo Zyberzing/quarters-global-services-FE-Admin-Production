@@ -163,9 +163,11 @@ const CourierDocumentDeliveryForm = ({
   // Form default values
   React.useEffect(() => {
     if (defaultData) {
-      form.reset({
-        ...defaultData.serviceFields,
-      });
+      setTimeout(() => {
+        form.reset({
+          ...defaultData.serviceFields,
+        });
+      }, 100);
     }
   }, [defaultData]);
   return (
@@ -377,11 +379,7 @@ const CourierDocumentDeliveryForm = ({
               <FormItem>
                 <FormLabel>Delivery Type</FormLabel>
                 <FormControl>
-                  <Select
-                    defaultValue={field.value}
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
+                  <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="" />
                     </SelectTrigger>
@@ -415,11 +413,7 @@ const CourierDocumentDeliveryForm = ({
               <FormItem>
                 <FormLabel>Preferred Courier Company</FormLabel>
                 <FormControl>
-                  <Select
-                    defaultValue={field.value}
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
+                  <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="" />
                     </SelectTrigger>
